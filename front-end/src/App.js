@@ -7,6 +7,9 @@ import Admin from './Admin'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import socketIOClient from 'socket.io-client'
+import io from 'socket.io-client'
+const socket = io('10.130.60.5:8600')
 function SimpleAppBar(props) {
   return (
     <div >
@@ -42,12 +45,15 @@ const stt = {
 const HOME = ()=>{
   return(
     <div style = {stt}>
-      <div><Link style = {linkstyle("white")} to="/Admin">Admin</Link></div>
-      <div><Link style = {linkstyle("white")} to="/Other">Other</Link></div>
+      <div><Link style = {linkstyle("white")} to="/Admin">Admin Login</Link></div>
+      <div><Link style = {linkstyle("white")} to="/Joinr">Join Competition</Link></div>
     </div>
   )
 }
 class App extends Component {
+  // componentDidMount(){
+  //   socket.emit('message', "HELLO FRENDs")
+  // }
   render() {
     return (
       <Router>
