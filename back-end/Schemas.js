@@ -37,15 +37,14 @@ const SUBMISSION_SCHEMA = new mongoose.Schema({
 })
 const COMPETITION_SCHEMA = new mongoose.Schema({
     Name: String,
-    CompetitionID: String,
     DateCreated: String,
     TimeLimit: Number,
-    Admin: USER_SCHEMA,
+    Admin: String,
     Judges: [JUDGE_SCHEMA],
     Teams :[TEAM_SCHEMA],
     Problems: [PROBLEM_SCHEMA],
     Submissions: [SUBMISSION_SCHEMA],
-    Scoreboard: [SCOREBOARD_SCHEMA]
+    Scoreboard: SCOREBOARD_SCHEMA
 })
 module.exports = {
     User: USER_SCHEMA,

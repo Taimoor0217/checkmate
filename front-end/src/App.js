@@ -9,15 +9,15 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import socketIOClient from 'socket.io-client'
 import io from 'socket.io-client'
-const socket = io('10.130.60.5:8600')
+const socket = io('10.130.60.5:8300')
 function SimpleAppBar(props) {
   return (
     <div >
       <AppBar position="static" color= "None">
         <Toolbar>
-        <Link style = {{"color" :"Orange", "textDecoration": "none"}}to="/">
+        <Link style = {{"color" :"black", "textDecoration": "none"}}to="/">
           <Typography variant="h5" color="inherit">
-           <strong>CheckMate</strong>
+           CheckMate
           </Typography>
           </Link>
         </Toolbar>
@@ -25,28 +25,13 @@ function SimpleAppBar(props) {
     </div>
   );
 }
-const linkstyle = (col)=> {return{
-  "color" :"Orange",
-  "textAlign":"center",
-  "height": "40px" ,
-   "width" : "300px",
-   "backgroundColor": col,
-   "float": "left",
-   "marginLeft": "20px",
-   "borderRadius": "8px",
-   "paddingTop" : "7px",
-   "fontSize": "1.6em",
-   "textDecoration": "none"
-}}
-const stt = {
-  "paddingTop" : "270px",
-  "paddingLeft" : "380px",
-}
 const HOME = ()=>{
   return(
-    <div style = {stt}>
-      <div><Link style = {linkstyle("white")} to="/Admin">Admin Login</Link></div>
-      <div><Link style = {linkstyle("white")} to="/Joinr">Join Competition</Link></div>
+    <div className = "optionsDiv">
+    <div className = "optionsDiv2">
+      <Link className = "Link" to="/Admin"> <div className = "HomeButton">ADMIN LOGIN </div></Link>
+      <Link className = "Link" to="/Join"><div className = "HomeButton">JOIN COMPETITION </div></Link>
+    </div>
     </div>
   )
 }
