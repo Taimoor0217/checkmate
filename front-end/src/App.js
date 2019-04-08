@@ -4,41 +4,49 @@ import './App.css';
 import { BrowserRouter as Router, Route , Link} from "react-router-dom";
 import Team from './Team'
 import Admin from './Admin'
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+
 import socketIOClient from 'socket.io-client'
 import io from 'socket.io-client'
+import { Navbar } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
+import { Nav } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
+
 const socket = io('10.130.60.5:8300')
 function SimpleAppBar(props) {
   return (
-    <div >
-      <AppBar position="static" color= "None">
-        <Toolbar>
-        <Link style = {{"color" :"black", "textDecoration": "none"}}to="/">
-          <Typography variant="h5" color="inherit">
-           CheckMate
-          </Typography>
-          </Link>
-        </Toolbar>
-      </AppBar>
-    </div>
+      <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+          <Navbar.Brand href="/">Check Mate</Navbar.Brand>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="mr-auto">
+              <Nav.Link href="/pricing">Pricing</Nav.Link>
+              </Nav>
+            <Nav>
+              <Nav.Link className = 'NavBarElem' href="/SignUp">SignUp</Nav.Link>
+              <Nav.Link className = 'NavBarElem' href="/AboutUs">About</Nav.Link>
+              <Nav.Link className = 'NavBarElem' href="/ContactUs">Contact Us</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+      </Navbar>
   );
 }
 const HOME = ()=>{
   return(
-    <div className = "optionsDiv">
-    <div className = "optionsDiv2">
-      <Link className = "Link" to="/Admin"> <div className = "HomeButton">ADMIN LOGIN </div></Link>
-      <Link className = "Link" to="/Join"><div className = "HomeButton">JOIN COMPETITION </div></Link>
-    </div>
+    <div >
+      <Container className = "optionsDiv">
+        <Button className= "HomeButton" variant="secondary" size="lg" href="/Admin" block>
+          Admin Login
+        </Button>
+        <Button className= "HomeButton" variant="secondary" size="lg" href="/Join" block>
+          Join Competition
+          </Button>
+      </Container>
+      {/* <Link className = "Link" to="/Join"><div className = "HomeButton">JOIN COMPETITION </div></Link> */}
     </div>
   )
 }
 class App extends Component {
-  // componentDidMount(){
-  //   socket.emit('message', "HELLO FRENDs")
-  // }
   render() {
     return (
       <Router>

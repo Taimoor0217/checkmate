@@ -28,7 +28,7 @@ export default class Admin extends Component{
         })
         .then((d)=>{
             // console.log(d.data)
-            if(d.data != '404'){
+            if(d.data !== '404'){
                 this.setState(d.data)
             }
         })

@@ -3,46 +3,36 @@
 }
 .optionsDiv{
   border: 4px solid rgba(0, 0, 0, 0.089);
+  padding: 4%;
   margin-top: 10%;
-  margin-left: 22%;
+  /* margin-left: 22%; */
   background-color:rgba(255, 255, 255, 0.795);
   border-radius: 0.5em;
-  width: 58%;
-  height: 50%;
+  width: 50%;
+  /* height: 70%; */
   /* opacity: 0.8 */
 
 }
-.optionsDiv2{
-  /* border: 2px solid red; */
-  padding-top: 7%;
-  margin-left: 26%;
-  position: relative;
-  height : 70%;
-  width: 45%
-}
 .HomeButton{
   border:1px solid white;
-  padding-top:6%; 
+  padding:3%; 
   margin:auto;
-  color:white;
-  text-align :center;
-  margin-top: 1.5%;
-  height: 30%;
-  background-color:rgba(0, 0, 0, 0.842);
+  font-size: 1.6em;
+  width: 68%;
+  font-family: Bree serif;
+  background-color:rgba(0, 0, 0, 0.877);
   border-radius: 0.4em;
 }
 .HomeButton:hover {
   background-color:black;
 }
-.Link{
-  font-family: Bree serif;
-  font-size: large;
-  text-decoration: none;
-}
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 40vmin;
   pointer-events: none;
+}
+.NavBarElem{
+  /* margin-right: 1% */
 }
 
 .App-header {
