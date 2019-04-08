@@ -16,16 +16,16 @@ const socket = io('10.130.60.5:8300')
 function SimpleAppBar(props) {
   return (
       <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
-          <Navbar.Brand href="/">Check Mate</Navbar.Brand>
+          <Navbar.Brand className = 'NavBrand' href="/">Check Mate</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
+              <Nav.Link href="/SignUp">SignUp</Nav.Link>
+            </Nav>
+            <Nav className = 'NavElem'>
               <Nav.Link href="/pricing">Pricing</Nav.Link>
-              </Nav>
-            <Nav>
-              <Nav.Link className = 'NavBarElem' href="/SignUp">SignUp</Nav.Link>
-              <Nav.Link className = 'NavBarElem' href="/AboutUs">About</Nav.Link>
-              <Nav.Link className = 'NavBarElem' href="/ContactUs">Contact Us</Nav.Link>
+              <Nav.Link href="/AboutUs">About</Nav.Link>
+              <Nav.Link href="/ContactUs">Contact Us</Nav.Link>
             </Nav>
           </Navbar.Collapse>
       </Navbar>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import './App.css';
+import { Container } from 'react-bootstrap';
 const LINK = 'http://10.130.60.5:8300/'
 export default class Admin extends Component{
     constructor(){
@@ -70,7 +71,7 @@ export default class Admin extends Component{
         return(
             <div >
                 { this.state.Initial ?(
-                    <div className = "OuterAdmin">
+                    <Container className = "OuterAdmin">
                         <div className = "InnerAdmin">
                             <form onSubmit = {this.handleInitialSubmit}>
                                 {/* <label >Competition Name</label> */}
@@ -85,7 +86,7 @@ export default class Admin extends Component{
                                 <input type = 'Submit' value = "Save Competition"></input>
                             </form>
                         </div>
-                    </div>
+                    </Container>
                 ):(
                     <h2> FINAL STATE </h2>
                 )}
