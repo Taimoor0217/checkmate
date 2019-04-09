@@ -33,7 +33,7 @@ function SimpleAppBar(props) {
 }
 const HOME = ()=>{
   return(
-    <div >
+    <div className = "DivWithBackground" >
       <Container className = "optionsDiv">
         <Button className= "HomeButton" variant="secondary" size="lg" href="/Admin" block>
           Admin Login

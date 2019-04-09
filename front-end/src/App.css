@@ -2,16 +2,30 @@
   text-align: center;
 }
 .optionsDiv{
+  position: relative;
   border: 4px solid rgba(0, 0, 0, 0.089);
   padding: 4%;
   margin-top: 13%;
-  /* margin-left: 22%; */
   background-color:rgba(255, 255, 255, 0.795);
   border-radius: 0.5em;
   width: 50%;
-  /* height: 70%; */
-  /* opacity: 0.8 */
 
+}
+.DivWithBackground{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url(Home4.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.AdminForm{
+  border: 4px solid rgba(0, 0, 0, 0.089);
+  padding: 3%;
+  margin-top: 8%;
+  background-color:rgba(255, 255, 255, 0.795);
+  border-radius: 0.5em;
+  width: 50%;
 }
 .HomeButton{
   border:1px solid white;
@@ -32,7 +46,6 @@
   pointer-events: none;
 }
 .mr-auto{
-  margin-left: 2%;
   font-family: Bree serif;
   font-size: 1.1em
 }
@@ -42,7 +55,7 @@
   font-size: 1.1em
 }
 .NavBrand{
-  margin-right: 1%;
+  margin-right: 3%;
   font-family: Bree serif;
   font-size: 1.7em
 }
@@ -57,10 +70,26 @@
   color: white;
 }
 
+.Dashboard-elem{
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 2px solid black;
+  padding: 5%;
+  padding-top: 1%;
+  margin-top: 3%; 
+  margin-left: 2%;
+  float: left;
+  width: 30%;
+  height: 550px;
+  /* height: 20%; */
+}
 .App-link {
   color: #61dafb;
 }
-
+li{
+  list-style: none;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -73,6 +102,18 @@ label {
   display: block;
   font: 1em 'Fira Sans', sans-serif;
 }
+.listElem{
+  /* overflow:scroll; */
+  /* overflow-y:scroll; */
+  padding: 8%;
+  text-align: center;
+  margin: 1%;
+  background-color: rgba(128, 128, 128, 0.315);
+  /* border: 1px solid grey; */
+}
+.scrollable{
+  overflow-y:scroll;
+}
 .OuterAdmin{
   border: 4px solid rgba(241, 203, 203, 0.089);
   margin-top: 5%;
@@ -83,9 +124,9 @@ label {
   height: 70%;
   /* opacity: 0.8 */
 }
-input[type=text]{
+.initialForm{
   width: 100%;
-  padding: 16px 24px;
+  padding: 14px 24px;
   margin: 8px 0;
   display: inline-block;
   border: 1px solid rgba(0, 0, 0, 0.527);
@@ -99,11 +140,11 @@ input::placeholder {
   font-family: 'Lucida Sans'
 }
 
-input[type=submit] {
+.initialFormSubmit {
   width: 100%;
   background-color:  rgba(0, 0, 0, 0.897);
   color: white;
-  padding: 18px 24px;
+  padding: 14px 24px;
   margin: 8px 0;
   border: none;
   border-radius: 4px;
@@ -113,10 +154,20 @@ input[type=submit] {
   font-family: 'Lucida Sans'
 }
 
-input[type=submit]:hover {
+.initialFormSubmit:hover {
   background-color:black;
 }
 .InnerAdmin{
   padding: 5%;
   /* margin-left:28%  */
+}
+.dashboard-form{
+  width: 100%;
+  text-align:center;
+  padding: 2px 2px;
+  margin: 1px 0;
+  display: inline-block;
+  border: 1px solid rgba(0, 0, 0, 0.527);
+  border-radius: 4px;
+  box-sizing: border-box
 }
