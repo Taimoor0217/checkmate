@@ -4,11 +4,22 @@ const SOCKIO = require('socket.io')
 const app = require('express')()
 const http = require('http')
 const schemas = require('./Schemas.js')
+const multer = require('multer')
 const server = http.createServer(app)
 const io = SOCKIO(server)
 const accounts = require('./accounts-generator.js')
 var cors = require('cors');
 let USERS = '', COMPETITION = ''
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, './uploads');
+    },
+    filename: function (req, file, cb) {
+        const newFilename = `${uuidv4()}${path.extname(file.originalname)}`;
+        cb(null, newFilename)
+    }
+});
+const upload = multer({ storage });
 app.use(bodyparser.json())
 app.use(bodyparser.urlencoded({ extended: true }))
 app.use(cors())
@@ -23,10 +34,10 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
             })
         })
         app.get('/checkcomp', (req, res) => {
-            name = req.query.Name
+            let name = req.query.Name
             USERS.findOne({ UserName: name }, (err, data) => {
-                comp = data.CompetitionID
-                if (comp == null || comp == "") {
+                let comp = data.CompetitionID
+                if (! comp ) {
                     res.send('404')
                     res.end()
                 } else {
@@ -104,6 +115,11 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                 })
             res.end()
         })
+        // app.post('/DBFile', upload.single('SentFile'), (req, res) => {
+        //     console.log(req.body)
+        //     console.log(`A file saved uploades with name : ${req.file.orignalname}`)
+        //     res.send(`File has been saved`);
+        // });
         server.listen(8300, () => console.log('SERVER Listning On THE PORT'))
     })
     .catch((err) => console.log(err))

@@ -32,21 +32,20 @@ export default class Admin extends Component{
 
     }
     componentDidMount(){
-
-        axios.get(LINK + 'checkcomp' , {
-            params:{
-                "Name" : this.state.UserName
-            }
-        })
-        .then((d)=>{
-            // console.log(d.data)
-            if(d.data !== '404'){
-                this.setState(d.data)
-            }
-        })
-        .catch(err=>{
-            console.log(err)
-        })
+          axios.get(LINK + 'checkcomp' , {
+              params:{
+                  "Name" : this.state.UserName
+              }
+          })
+          .then((d)=>{
+              // console.log(d.data)
+              if(d.data !== '404'){
+                  this.setState(d.data)
+              }
+          })
+          .catch(err=>{
+              console.log(err)
+          })
     }
     handleSubmit(event){
         event.preventDefault()
@@ -59,7 +58,7 @@ export default class Admin extends Component{
                 .catch(err=>{
                     console.log(err)
                 })
-                document.getElementById("INITIALINFO").reset();
+                // document.getElementById("INITIALINFO").reset();
                 break;
             case 'DBTEAM':
                 // console.log('NEW TEAM')
@@ -107,6 +106,17 @@ export default class Admin extends Component{
                 break;
             case 'DBPROB':
                 // console.log('NEW PROB')
+                // const data = {
+                //     Competition : this.state.CompName,
+                //     ProblemName : this.state.dbProblemName,
+                //     SelectedFiles : [this.state.dbInputFile , this.state.dbOutputFile]
+                // }
+                let SelectedFiles = [this.state.dbInputFile , this.state.dbOutputFile]
+                let formData = new FormData();
+                formData.append('Competition', this.state.CompName);
+                formData.append('ProblemName', this.state.dbProblemName);
+                formData.append('SelectedFiles', SelectedFiles);
+                axios.post(LINK + 'DBFiles' , formData)
                 document.getElementById("DBPROB").reset();
                 break;
         }
@@ -159,11 +169,11 @@ export default class Admin extends Component{
                 { this.state.Initial ?(
                     <div id= "INITIALINFO" className = "DivWithBackground">
                         <Container  className = "AdminForm">
-                                <form Name = "INITIALINFO" onSubmit = {this.Submit}>
+                                <form Name = "INITIALINFO" onSubmit = {this.handleSubmit}>
                                     <input className ="initialForm" Name = "NAME" placeholder ="Competetion Name" type = 'text' onChange={this.handleChange} required= "true"></input>
                                     <input className ="initialForm" Name = "noTeams" placeholder ="Number of Teams" type = 'text' onChange={this.handleChange} required= "true" ></input>
                                     <input className ="initialForm" Name = "noJudges" placeholder ="Number of Judges" type = 'text' onChange={this.handleChange} required= "true"></input>
-                                    <input className ="initialForm" type="checkbox" name="vehicle1" value="Bike"></input> Auto Judge In the Start?<br></br>
+                                    <input type="checkbox" name="vehicle1" value="Bike"></input> Auto Judge In the Start?<br></br>
                                     <input className ="initialForm" Name = "Duration" placeholder ="Duration" type = 'text' onChange={this.handleChange} required= "true"></input>
                                     <input className ="initialFormSubmit" type = 'Submit' value = "Save Competition"></input>
                                 </form>
@@ -174,39 +184,45 @@ export default class Admin extends Component{
                         <center><h2> {this.state.CompName} </h2></center>
                         {/* <h1>HEL</h1> */}
                         <div className = "Dashboard-elem">
-                            <h3>Add Teams</h3>
-                            <form id= "DBTEAM" Name ="DBTEAM" onSubmit = {this.handleSubmit}>
-                                <input className = "dashboard-form" Name = "dbTeamName" placeholder ="Team Name" type = 'text' onChange={this.handleChange} required= "true"></input>
-                                <input className = "dashboard-form" Name = "dbTeamPassword" placeholder ="Password" type = 'text' onChange={this.handleChange} required= "true" ></input>
-                                <input className = "dashboard-form" Name = "dbTeamScore" placeholder ="Initial Score" type = 'text' onChange={this.handleChange} required= "true"></input>
-                                <input className = "dashboard-formSubmit" type = 'Submit' value = "Create"></input>
-                            </form>
-                            
+                            <h3>Teams</h3>
+                            <div className = "DBFORM">
+                                <form id= "DBTEAM" Name ="DBTEAM" onSubmit = {this.handleSubmit}>
+                                    <input className = "dashboard-form" Name = "dbTeamName" placeholder ="Team Name" type = 'text' onChange={this.handleChange} required= "true"></input>
+                                    <input className = "dashboard-form" Name = "dbTeamPassword" placeholder ="Password" type = 'text' onChange={this.handleChange} required= "true" ></input>
+                                    <input className = "dashboard-form" Name = "dbTeamScore" placeholder ="Initial Score" type = 'text' onChange={this.handleChange} required= "true"></input>
+                                    <input className = "dashboard-formSubmit" type = 'Submit' value = "Create"></input>
+                                </form>
+                            </div>
                             <div className = "scrollable">
                                 {this.state.Teams.map(T=> <li className = "listElem"> {T.UserName } </li>)}
                             </div>
+                            
                         </div>
                         <div className = "Dashboard-elem">
-                            <h2>Judges</h2>
-                            <form id= "DBJUDGE" Name ="DBJUDGE" onSubmit = {this.handleSubmit}>
-                                <input className = "dashboard-form" Name = "dbJudgeName" placeholder ="Judge Name" type = 'text' onChange={this.handleChange} required= "true"></input>
-                                <input className = "dashboard-form" Name = "dbJudgePassword" placeholder ="Password" type = 'text' onChange={this.handleChange} required= "true" ></input>
-                                <input className = "dashboard-formSubmit" type = 'Submit' value = "Create"></input>
-                            </form>
+                            <h3>Judges</h3>
+                            <div className = "DBFORM" >
+                                <form id= "DBJUDGE" Name ="DBJUDGE" onSubmit = {this.handleSubmit}>
+                                    <input className = "dashboard-form" Name = "dbJudgeName" placeholder ="Judge Name" type = 'text' onChange={this.handleChange} required= "true"></input>
+                                    <input className = "dashboard-form" Name = "dbJudgePassword" placeholder ="Password" type = 'text' onChange={this.handleChange} required= "true" ></input>
+                                    <input className = "dashboard-formSubmit" type = 'Submit' value = "Create"></input>
+                                </form>
+                            </div>
                             <div className = "scrollable">
                                 {this.state.Judges.map(j=> <li className = "listElem"> {j.UserName } </li>)}
                             </div>
                         </div>
                         <div className = "Dashboard-elem">
-                            <h2>Problems</h2>
-                            <form id= "DBPROB " Name ="DBPROB" onSubmit = {this.handleSubmit}>
-                                <input className = "dashboard-form" Name = "dbProblemName" placeholder ="Problem Name" type = 'text' onChange={this.handleChange} required= "true"></input>
-                                <h6>Input File</h6>
-                                <input className = "dashboard-form" Name = "dbInputFile" type = 'file' onChange={this.handleChange} required= "true" ></input>
-                                <h6>Output File</h6>
-                                <input className = "dashboard-form" Name = "dbOutputFile" type = 'file' onChange={this.handleChange} required= "true" ></input>
-                                <input className = "dashboard-formSubmit" type = 'Submit' value = "Add"></input>
-                            </form>
+                            <h3>Problems</h3>
+                            <div className = "DBFORM">
+                                <form id= "DBPROB" Name ="DBPROB" onSubmit = {this.handleSubmit}>
+                                    <input className = "dashboard-form" Name = "dbProblemName" placeholder ="Problem Name" type = 'text' onChange={this.handleChange} required= "true"></input>
+                                    <h6>Input File</h6>
+                                    <input className = "dashboard-form" Name = "dbInputFile" type = 'file' onChange={this.handleChange} required= "true" ></input>
+                                    <h6>Output File</h6>
+                                    <input className = "dashboard-form" Name = "dbOutputFile" type = 'file' onChange={this.handleChange} required= "true" ></input>
+                                    <input className = "dashboard-formSubmit" type = 'Submit' value = "Add"></input>
+                                </form>
+                            </div>
                             <div className = "scrollable">
                                 {this.state.Problems.map(P => <li className = "listElem"> {P.Name } </li>)}
                             </div>

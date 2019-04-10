@@ -167,7 +167,15 @@ input::placeholder {
   padding: 2px 2px;
   margin: 1px 0;
   display: inline-block;
-  border: 1px solid rgba(0, 0, 0, 0.527);
-  border-radius: 4px;
-  box-sizing: border-box
+}
+.dashboard-formSubmit{
+  /* font :white;*/
+  color: white;
+  padding: 2%;
+  width: 100%;
+  background-color:  rgba(0, 0, 0, 0.897);
+  border-radius: 5px
+}
+.dashboard-formSubmit:hover{
+  background-color: black;
 }
