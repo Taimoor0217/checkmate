@@ -2,6 +2,13 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import './App.css';
 import { Container } from 'react-bootstrap';
+import { withStyles } from "@material-ui/core/styles";
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import Typography from "@material-ui/core/Typography";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+
 const LINK = 'http://10.130.60.5:8300/'
 export default class Admin extends Component{
     constructor(){
@@ -15,7 +22,7 @@ export default class Admin extends Component{
             Duration: '',
             Teams: null,
             Judges: null,
-            Problems:[],
+            Problems:[{Name:"Problem 1"} , {Name :"Problem 2"}],
             dbTeamName: null ,
             dbTeamPassword:null,
             dbTeamScore: null,
@@ -41,6 +48,7 @@ export default class Admin extends Component{
               // console.log(d.data)
               if(d.data !== '404'){
                   this.setState(d.data)
+                  this.setState({Problems:[{Name:"Problem 1"} ,{Name:"Problem 1"} ,{Name:"Problem 1"} , {Name :"Problem 2"}]})
               }
           })
           .catch(err=>{
@@ -165,7 +173,7 @@ export default class Admin extends Component{
     }
     render(){
         return(
-            <div >
+            <div>
                 { this.state.Initial ?(
                     <div id= "INITIALINFO" className = "DivWithBackground">
                         <Container  className = "AdminForm">
@@ -182,47 +190,65 @@ export default class Admin extends Component{
                 ):( 
                     <div>
                         <center><h2> {this.state.CompName} </h2></center>
-                        {/* <h1>HEL</h1> */}
+                        
                         <div className = "Dashboard-elem">
-                            <h3>Teams</h3>
-                            <div className = "DBFORM">
-                                <form id= "DBTEAM" Name ="DBTEAM" onSubmit = {this.handleSubmit}>
+                        <ExpansionPanel>
+                            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                            {/* <Typography >Expansion Panel 1</Typography> */}
+                            <div className = "NAMETAG"><h3>Add New team</h3></div>
+                            </ExpansionPanelSummary>
+                            <ExpansionPanelDetails>
+                            {/* <Typography>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+                                malesuada lacus ex, sit amet blandit leo lobortis eget.
+                            </Typography> */}
+                                <form className = "DBFORM" id= "DBTEAM" Name ="DBTEAM" onSubmit = {this.handleSubmit}>
                                     <input className = "dashboard-form" Name = "dbTeamName" placeholder ="Team Name" type = 'text' onChange={this.handleChange} required= "true"></input>
                                     <input className = "dashboard-form" Name = "dbTeamPassword" placeholder ="Password" type = 'text' onChange={this.handleChange} required= "true" ></input>
                                     <input className = "dashboard-form" Name = "dbTeamScore" placeholder ="Initial Score" type = 'text' onChange={this.handleChange} required= "true"></input>
                                     <input className = "dashboard-formSubmit" type = 'Submit' value = "Create"></input>
                                 </form>
-                            </div>
+                            </ExpansionPanelDetails>
+                        </ExpansionPanel>
                             <div className = "scrollable">
                                 {this.state.Teams.map(T=> <li className = "listElem"> {T.UserName } </li>)}
                             </div>
                             
                         </div>
                         <div className = "Dashboard-elem">
-                            <h3>Judges</h3>
-                            <div className = "DBFORM" >
-                                <form id= "DBJUDGE" Name ="DBJUDGE" onSubmit = {this.handleSubmit}>
+                        <ExpansionPanel>
+                            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                            <div className = "NAMETAG" ><h3>Add a Judge</h3></div>
+                            </ExpansionPanelSummary>
+                            <ExpansionPanelDetails>
+                                <form className = "DBFORM" id= "DBJUDGE" Name ="DBJUDGE" onSubmit = {this.handleSubmit}>
                                     <input className = "dashboard-form" Name = "dbJudgeName" placeholder ="Judge Name" type = 'text' onChange={this.handleChange} required= "true"></input>
                                     <input className = "dashboard-form" Name = "dbJudgePassword" placeholder ="Password" type = 'text' onChange={this.handleChange} required= "true" ></input>
                                     <input className = "dashboard-formSubmit" type = 'Submit' value = "Create"></input>
                                 </form>
-                            </div>
+                            </ExpansionPanelDetails>
+                        </ExpansionPanel>
+                           
                             <div className = "scrollable">
                                 {this.state.Judges.map(j=> <li className = "listElem"> {j.UserName } </li>)}
                             </div>
                         </div>
                         <div className = "Dashboard-elem">
-                            <h3>Problems</h3>
-                            <div className = "DBFORM">
-                                <form id= "DBPROB" Name ="DBPROB" onSubmit = {this.handleSubmit}>
-                                    <input className = "dashboard-form" Name = "dbProblemName" placeholder ="Problem Name" type = 'text' onChange={this.handleChange} required= "true"></input>
-                                    <h6>Input File</h6>
-                                    <input className = "dashboard-form" Name = "dbInputFile" type = 'file' onChange={this.handleChange} required= "true" ></input>
-                                    <h6>Output File</h6>
-                                    <input className = "dashboard-form" Name = "dbOutputFile" type = 'file' onChange={this.handleChange} required= "true" ></input>
-                                    <input className = "dashboard-formSubmit" type = 'Submit' value = "Add"></input>
-                                </form>
-                            </div>
+                            <ExpansionPanel>
+                                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                <div className = "NAMETAG" ><h3>Add a Problem</h3></div>
+                                </ExpansionPanelSummary>
+                                <ExpansionPanelDetails>
+                                    <form id= "DBPROB" Name ="DBPROB" onSubmit = {this.handleSubmit}>
+                                        <input className = "dashboard-form" Name = "dbProblemName" placeholder ="Problem Name" type = 'text' onChange={this.handleChange} required= "true"></input>
+                                            <h6>Input File</h6>
+                                        <input className = "dashboard-form" Name = "dbInputFile" type = 'file' onChange={this.handleChange} required= "true" ></input>
+                                            <h6>Output File</h6> 
+                                        <input className = "dashboard-form" Name = "dbOutputFile" type = 'file' onChange={this.handleChange} required= "true" ></input>
+                                        <input className = "dashboard-formSubmit" type = 'Submit' value = "Create"></input>
+                                    </form>
+                                </ExpansionPanelDetails>
+                            </ExpansionPanel>
                             <div className = "scrollable">
                                 {this.state.Problems.map(P => <li className = "listElem"> {P.Name } </li>)}
                             </div>

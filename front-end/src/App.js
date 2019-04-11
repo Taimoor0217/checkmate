@@ -20,7 +20,7 @@ function SimpleAppBar(props) {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link href="/SignUp">SignUp</Nav.Link>
+              {/* <Nav.Link href="/SignUp">SignUp</Nav.Link> */}
             </Nav>
             <Nav className = 'NavElem'>
               <Nav.Link href="/pricing">Pricing</Nav.Link>

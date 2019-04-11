@@ -1,64 +1,6 @@
 .App {
   text-align: center;
 }
-.optionsDiv{
-  position: relative;
-  border: 4px solid rgba(0, 0, 0, 0.089);
-  padding: 4%;
-  margin-top: 13%;
-  background-color:rgba(255, 255, 255, 0.795);
-  border-radius: 0.5em;
-  width: 50%;
-
-}
-.DivWithBackground{
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: url(Home4.jpg);
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-.AdminForm{
-  border: 4px solid rgba(0, 0, 0, 0.089);
-  padding: 3%;
-  margin-top: 8%;
-  background-color:rgba(255, 255, 255, 0.795);
-  border-radius: 0.5em;
-  width: 50%;
-}
-.HomeButton{
-  border:1px solid white;
-  padding:3%; 
-  margin:auto;
-  font-size: 180%;
-  width: 68%;
-  font-family: Bree serif;
-  background-color:rgba(0, 0, 0, 0.877);
-  border-radius: 0.4em;
-}
-.HomeButton:hover {
-  background-color:black;
-}
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
-.mr-auto{
-  font-family: Bree serif;
-  font-size: 1.1em
-}
-.NavElem{
-  margin-right: 3%;
-  font-family: Bree serif;
-  font-size: 1.1em
-}
-.NavBrand{
-  margin-right: 3%;
-  font-family: Bree serif;
-  font-size: 1.7em
-}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -72,16 +14,18 @@
 
 .Dashboard-elem{
   display: flex;
+  background-color: rgba(255, 255, 255, 0.644);
   flex-direction: column;
   overflow: hidden;
-  border: 2px solid black;
-  padding: 5%;
+  padding: 3%;
   padding-top: 1%;
   margin-top: 3%; 
   margin-left: 2%;
+  border-radius: 25px;
   float: left;
   width: 30%;
-  height: 550px;
+  /* background-color: n; */
+  height: 600px;
   /* height: 20%; */
 }
 .App-link {
@@ -98,20 +42,22 @@ li{
     transform: rotate(360deg);
   }
 }
-label {
-  display: block;
-  font: 1em 'Fira Sans', sans-serif;
-}
 .listElem{
   /* overflow:scroll; */
   /* overflow-y:scroll; */
+  font-family: Bree serif;
+  font-size: 20px; 
   padding: 8%;
   text-align: center;
   margin: 1%;
-  background-color: rgba(128, 128, 128, 0.315);
+  border: 2px solid grey;
+  border-radius: 8px; 
+  background-color:white;
   /* border: 1px solid grey; */
 }
 .scrollable{
+  margin-top : 5%;
+  width: 100%;
   overflow-y:scroll;
 }
 .OuterAdmin{
@@ -163,19 +109,102 @@ input::placeholder {
 }
 .dashboard-form{
   width: 100%;
+  margin-top: 3px;
   text-align:center;
-  padding: 2px 2px;
-  margin: 1px 0;
+  padding: 2% 2%;
+  border-radius : 8px;
+  border: 1px solid grey;
   display: inline-block;
 }
 .dashboard-formSubmit{
-  /* font :white;*/
   color: white;
-  padding: 2%;
+  padding: 4%;
+  margin-top: 3px;
   width: 100%;
   background-color:  rgba(0, 0, 0, 0.897);
-  border-radius: 5px
+  border-radius: 10px;
+  font-family: Bree serif;
+  font-size: 1.8 em;
 }
 .dashboard-formSubmit:hover{
   background-color: black;
+}
+.DBFORM{
+  height: 202px
+}
+.optionsDiv{
+  position: relative;
+  border: 4px solid rgba(0, 0, 0, 0.089);
+  padding: 4%;
+  margin-top: 13%;
+  background-color:rgba(255, 255, 255, 0.795);
+  border-radius: 0.5em;
+  width: 50%;
+}
+.DivWithBackground{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url(Home4.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.AdminForm{
+  border: 4px solid rgba(0, 0, 0, 0.089);
+  padding: 3%;
+  margin-top: 8%;
+  background-color:rgba(255, 255, 255, 0.795);
+  border-radius: 0.5em;
+  width: 50%;
+}
+.HomeButton{
+  border:1px solid white;
+  padding:3%; 
+  margin:auto;
+  font-size: 180%;
+  width: 68%;
+  font-family: Bree serif;
+  background-color:rgba(0, 0, 0, 0.877);
+  border-radius: 0.4em;
+}
+.HomeButton:hover {
+  background-color:black;
+}
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
+}
+.mr-auto{
+  font-family: Bree serif;
+  font-size: 1.1em
+}
+.NavElem{
+  margin-right: 3%;
+  font-family: Bree serif;
+  font-size: 1.1em
+}
+.NavBrand{
+  margin-right: 3%;
+  font-family: Bree serif;
+  font-size: 1.7em
+}
+h6{
+  font-size : 15px;
+  display: inline-block;
+  font-family: Bree serif;
+}
+input[type="file"] {
+  font-family: Bree serif;
+  /* font-size: 13px; */
+}
+.NAMETAG{
+  text-align: center;
+  /* border: 2px solid black; */
+}
+.EXPAND{
+
+}
+h2,h3,h1{
+  font-family: Bree serif;
 }
