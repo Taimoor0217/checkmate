@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter as Router, Route , Link} from "react-router-dom";
+import { BrowserRouter as Router, Route} from "react-router-dom";
 import Team from './Team'
 import Admin from './Admin'
 
@@ -16,7 +15,7 @@ const socket = io('10.130.60.5:8300')
 function SimpleAppBar(props) {
   return (
       <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
-          <Navbar.Brand className = 'NavBrand' href="/">Check Mate</Navbar.Brand>
+          <Navbar.Brand className = 'NavBrand ' href="/">Check Mate</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">

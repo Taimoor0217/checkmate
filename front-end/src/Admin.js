@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import './App.css';
 import { Container } from 'react-bootstrap';
-import { withStyles } from "@material-ui/core/styles";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const LINK = 'http://10.130.60.5:8300/'
@@ -45,7 +43,6 @@ export default class Admin extends Component{
               }
           })
           .then((d)=>{
-              // console.log(d.data)
               if(d.data !== '404'){
                   this.setState(d.data)
                   this.setState({Problems:[{Name:"Problem 1"} ,{Name:"Problem 1"} ,{Name:"Problem 1"} , {Name :"Problem 2"}]})
@@ -192,65 +189,93 @@ export default class Admin extends Component{
                         <center><h2> {this.state.CompName} </h2></center>
                         
                         <div className = "Dashboard-elem">
-                        <ExpansionPanel>
-                            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                            {/* <Typography >Expansion Panel 1</Typography> */}
-                            <div className = "NAMETAG"><h3>Add New team</h3></div>
-                            </ExpansionPanelSummary>
-                            <ExpansionPanelDetails>
-                            {/* <Typography>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                                malesuada lacus ex, sit amet blandit leo lobortis eget.
-                            </Typography> */}
-                                <form className = "DBFORM" id= "DBTEAM" Name ="DBTEAM" onSubmit = {this.handleSubmit}>
-                                    <input className = "dashboard-form" Name = "dbTeamName" placeholder ="Team Name" type = 'text' onChange={this.handleChange} required= "true"></input>
-                                    <input className = "dashboard-form" Name = "dbTeamPassword" placeholder ="Password" type = 'text' onChange={this.handleChange} required= "true" ></input>
-                                    <input className = "dashboard-form" Name = "dbTeamScore" placeholder ="Initial Score" type = 'text' onChange={this.handleChange} required= "true"></input>
-                                    <input className = "dashboard-formSubmit" type = 'Submit' value = "Create"></input>
-                                </form>
-                            </ExpansionPanelDetails>
-                        </ExpansionPanel>
-                            <div className = "scrollable">
-                                {this.state.Teams.map(T=> <li className = "listElem"> {T.UserName } </li>)}
-                            </div>
-                            
-                        </div>
-                        <div className = "Dashboard-elem">
-                        <ExpansionPanel>
-                            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                            <div className = "NAMETAG" ><h3>Add a Judge</h3></div>
-                            </ExpansionPanelSummary>
-                            <ExpansionPanelDetails>
-                                <form className = "DBFORM" id= "DBJUDGE" Name ="DBJUDGE" onSubmit = {this.handleSubmit}>
-                                    <input className = "dashboard-form" Name = "dbJudgeName" placeholder ="Judge Name" type = 'text' onChange={this.handleChange} required= "true"></input>
-                                    <input className = "dashboard-form" Name = "dbJudgePassword" placeholder ="Password" type = 'text' onChange={this.handleChange} required= "true" ></input>
-                                    <input className = "dashboard-formSubmit" type = 'Submit' value = "Create"></input>
-                                </form>
-                            </ExpansionPanelDetails>
-                        </ExpansionPanel>
-                           
-                            <div className = "scrollable">
-                                {this.state.Judges.map(j=> <li className = "listElem"> {j.UserName } </li>)}
-                            </div>
-                        </div>
-                        <div className = "Dashboard-elem">
+                        <div className = "SUM">
                             <ExpansionPanel>
                                 <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                                <div className = "NAMETAG" ><h3>Add a Problem</h3></div>
+                                    <div className = "NAMETAG"><h3>Add a Team</h3></div>
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
-                                    <form id= "DBPROB" Name ="DBPROB" onSubmit = {this.handleSubmit}>
-                                        <input className = "dashboard-form" Name = "dbProblemName" placeholder ="Problem Name" type = 'text' onChange={this.handleChange} required= "true"></input>
-                                            <h6>Input File</h6>
-                                        <input className = "dashboard-form" Name = "dbInputFile" type = 'file' onChange={this.handleChange} required= "true" ></input>
-                                            <h6>Output File</h6> 
-                                        <input className = "dashboard-form" Name = "dbOutputFile" type = 'file' onChange={this.handleChange} required= "true" ></input>
+                                    <form className = "DBFORM" id= "DBTEAM" Name ="DBTEAM" onSubmit = {this.handleSubmit}>
+                                        <input className = "dashboard-form" Name = "dbTeamName" placeholder ="Team Name" type = 'text' onChange={this.handleChange} required= "true"></input>
+                                        <input className = "dashboard-form" Name = "dbTeamPassword" placeholder ="Password" type = 'text' onChange={this.handleChange} required= "true" ></input>
+                                        <input className = "dashboard-form" Name = "dbTeamScore" placeholder ="Initial Score" type = 'text' onChange={this.handleChange} required= "true"></input>
                                         <input className = "dashboard-formSubmit" type = 'Submit' value = "Create"></input>
                                     </form>
                                 </ExpansionPanelDetails>
                             </ExpansionPanel>
-                            <div className = "scrollable">
-                                {this.state.Problems.map(P => <li className = "listElem"> {P.Name } </li>)}
+                        </div>
+                        <div className = "SUM">
+                            <ExpansionPanel>
+                                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                    <div className = "NAMETAG"><h3>Remove a Team</h3></div>
+                                </ExpansionPanelSummary>
+                                <ExpansionPanelDetails >
+                                <div className = "scrollable">
+                                        {this.state.Teams.map(T=> <li className = "listElem"> {T.UserName } </li>)}
+                                </div>
+                                </ExpansionPanelDetails>
+                            </ExpansionPanel>
+                        </div>
+                            
+                        </div>
+                        <div className = "Dashboard-elem">
+                        <div className = "SUM">
+                            <ExpansionPanel>
+                                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                <div className = "NAMETAG" ><h3>Add a Judge</h3></div>
+                                </ExpansionPanelSummary>
+                                <ExpansionPanelDetails>
+                                    <form className = "DBFORM" id= "DBJUDGE" Name ="DBJUDGE" onSubmit = {this.handleSubmit}>
+                                        <input className = "dashboard-form" Name = "dbJudgeName" placeholder ="Judge Name" type = 'text' onChange={this.handleChange} required= "true"></input>
+                                        <input className = "dashboard-form" Name = "dbJudgePassword" placeholder ="Password" type = 'text' onChange={this.handleChange} required= "true" ></input>
+                                        <input className = "dashboard-formSubmit" type = 'Submit' value = "Create"></input>
+                                    </form>
+                                </ExpansionPanelDetails>
+                            </ExpansionPanel>
+                        </div>
+                        <div className = "SUM">
+                            <ExpansionPanel>
+                                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                <div className = "NAMETAG" ><h3>Remove a Judge</h3></div>
+                                </ExpansionPanelSummary>
+                                <ExpansionPanelDetails>
+                                    <div className = "scrollable">
+                                        {this.state.Judges.map(j=> <li className = "listElem"> {j.UserName } </li>)}
+                                    </div>
+                                </ExpansionPanelDetails>
+                            </ExpansionPanel>
+                        </div>
+                           
+                        </div>
+                        <div className = "Dashboard-elem">
+                            <div className = "SUM">
+                                <ExpansionPanel>
+                                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                        <div className = "NAMETAG" ><h3>Add Problem</h3></div>
+                                        </ExpansionPanelSummary>
+                                    <ExpansionPanelDetails>
+                                        <form id= "DBPROB" Name ="DBPROB" onSubmit = {this.handleSubmit}>
+                                            <input className = "dashboard-form" Name = "dbProblemName" placeholder ="Problem Name" type = 'text' onChange={this.handleChange} required= "true"></input>
+                                                <h6>Input File</h6>
+                                            <input className = "dashboardfile-form" Name = "dbInputFile" type = 'file' onChange={this.handleChange} required= "true" ></input>
+                                                <h6>Output File</h6> 
+                                            <input className = "dashboardfile-form" Name = "dbOutputFile" type = 'file' onChange={this.handleChange} required= "true" ></input>
+                                            <input className = "dashboard-formSubmit" type = 'Submit' value = "Create"></input>
+                                        </form>
+                                    </ExpansionPanelDetails>
+                                </ExpansionPanel>
+                            </div>
+                            <div className = "SUM">
+                                <ExpansionPanel>
+                                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                    <div className = "NAMETAG" ><h3>Remove Problem</h3></div>
+                                    </ExpansionPanelSummary>
+                                    <ExpansionPanelDetails>
+                                        <div className = "scrollable">
+                                            {this.state.Problems.map(P => <li className = "listElem"> {P.Name } </li>)}
+                                        </div>
+                                    </ExpansionPanelDetails>
+                                </ExpansionPanel>
                             </div>
                         </div>
                     </div>

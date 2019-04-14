@@ -8,7 +8,7 @@ const multer = require('multer')
 const server = http.createServer(app)
 const io = SOCKIO(server)
 const accounts = require('./accounts-generator.js')
-var cors = require('cors');
+var cors = require('cors'); 
 let USERS = '', COMPETITION = ''
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
