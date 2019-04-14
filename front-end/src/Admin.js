@@ -124,6 +124,8 @@ export default class Admin extends Component{
                 axios.post(LINK + 'DBFiles' , formData)
                 document.getElementById("DBPROB").reset();
                 break;
+            default:
+                break;
         }
     }
     handleChange(e){
@@ -175,7 +177,7 @@ export default class Admin extends Component{
                     <div id= "INITIALINFO" className = "DivWithBackground">
                         <Container  className = "AdminForm">
                                 <form Name = "INITIALINFO" onSubmit = {this.handleSubmit}>
-                                    <input className ="initialForm" Name = "NAME" placeholder ="Competetion Name" type = 'text' onChange={this.handleChange} required= "true"></input>
+                                    <input className ="initialForm" Name = "NAME" placeholder ="Competition Name" type = 'text' onChange={this.handleChange} required= "true"></input>
                                     <input className ="initialForm" Name = "noTeams" placeholder ="Number of Teams" type = 'text' onChange={this.handleChange} required= "true" ></input>
                                     <input className ="initialForm" Name = "noJudges" placeholder ="Number of Judges" type = 'text' onChange={this.handleChange} required= "true"></input>
                                     <input type="checkbox" name="vehicle1" value="Bike"></input> Auto Judge In the Start?<br></br>
@@ -187,7 +189,35 @@ export default class Admin extends Component{
                 ):( 
                     <div>
                         <center><h2> {this.state.CompName} </h2></center>
-                        
+                        <div className = "Dashboard-elem">
+                        <div className = "SUM">
+                            <ExpansionPanel>
+                                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                <div className = "NAMETAG" ><h3>Add a Judge</h3></div>
+                                </ExpansionPanelSummary>
+                                <ExpansionPanelDetails>
+                                    <form className = "DBFORM" id= "DBJUDGE" Name ="DBJUDGE" onSubmit = {this.handleSubmit}>
+                                        <input className = "dashboard-form" Name = "dbJudgeName" placeholder ="Judge Name" type = 'text' onChange={this.handleChange} required= "true"></input>
+                                        <input className = "dashboard-form" Name = "dbJudgePassword" placeholder ="Password" type = 'text' onChange={this.handleChange} required= "true" ></input>
+                                        <input className = "dashboard-formSubmit" type = 'Submit' value = "Create"></input>
+                                    </form>
+                                </ExpansionPanelDetails>
+                            </ExpansionPanel>
+                        </div>
+                        <div className = "SUM">
+                            <ExpansionPanel>
+                                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                                <div className = "NAMETAG" ><h3>Remove a Judge</h3></div>
+                                </ExpansionPanelSummary>
+                                <ExpansionPanelDetails>
+                                    <div className = "scrollable">
+                                        {this.state.Judges.map(j=> <li className = "listElem"> {j.UserName } </li>)}
+                                    </div>
+                                </ExpansionPanelDetails>
+                            </ExpansionPanel>
+                        </div>
+                           
+                        </div>
                         <div className = "Dashboard-elem">
                         <div className = "SUM">
                             <ExpansionPanel>
@@ -217,35 +247,6 @@ export default class Admin extends Component{
                             </ExpansionPanel>
                         </div>
                             
-                        </div>
-                        <div className = "Dashboard-elem">
-                        <div className = "SUM">
-                            <ExpansionPanel>
-                                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                                <div className = "NAMETAG" ><h3>Add a Judge</h3></div>
-                                </ExpansionPanelSummary>
-                                <ExpansionPanelDetails>
-                                    <form className = "DBFORM" id= "DBJUDGE" Name ="DBJUDGE" onSubmit = {this.handleSubmit}>
-                                        <input className = "dashboard-form" Name = "dbJudgeName" placeholder ="Judge Name" type = 'text' onChange={this.handleChange} required= "true"></input>
-                                        <input className = "dashboard-form" Name = "dbJudgePassword" placeholder ="Password" type = 'text' onChange={this.handleChange} required= "true" ></input>
-                                        <input className = "dashboard-formSubmit" type = 'Submit' value = "Create"></input>
-                                    </form>
-                                </ExpansionPanelDetails>
-                            </ExpansionPanel>
-                        </div>
-                        <div className = "SUM">
-                            <ExpansionPanel>
-                                <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                                <div className = "NAMETAG" ><h3>Remove a Judge</h3></div>
-                                </ExpansionPanelSummary>
-                                <ExpansionPanelDetails>
-                                    <div className = "scrollable">
-                                        {this.state.Judges.map(j=> <li className = "listElem"> {j.UserName } </li>)}
-                                    </div>
-                                </ExpansionPanelDetails>
-                            </ExpansionPanel>
-                        </div>
-                           
                         </div>
                         <div className = "Dashboard-elem">
                             <div className = "SUM">

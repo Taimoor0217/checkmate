@@ -3,13 +3,16 @@ import './App.css';
 import { BrowserRouter as Router, Route} from "react-router-dom";
 import Team from './Team'
 import Admin from './Admin'
-
+import Judge from './Judge'
+import { ProtectedRoute } from "./ProtectedRoute";
 import socketIOClient from 'socket.io-client'
 import io from 'socket.io-client'
 import { Navbar } from 'react-bootstrap';
 import { Container } from 'react-bootstrap';
 import { Nav } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
+import auth from "./Auth";
+import ParticipantLogin from './ParticipantLogin'
 
 const socket = io('10.130.60.5:8300')
 function SimpleAppBar(props) {
@@ -35,9 +38,9 @@ const HOME = ()=>{
     <div className = "DivWithBackground" >
       <Container className = "optionsDiv">
         <Button className= "HomeButton" variant="secondary" size="lg" href="/Admin" block>
-          Admin Login
+          Create Competition
         </Button>
-        <Button className= "HomeButton" variant="secondary" size="lg" href="/Join" block>
+        <Button className= "HomeButton" variant="secondary" size="lg" href="/ParticipantLogin" block>
           Join Competition
           </Button>
       </Container>
@@ -52,7 +55,10 @@ class App extends Component {
         {<SimpleAppBar/>}
         <switch>
           <Route path ="/admin" component = {Admin}/>
-          <Route exact path ="/" component = {HOME} /> 
+          <Route path ="/ParticipantLogin" component = {ParticipantLogin}/>
+          <Route exact path ="/" component = {HOME} />
+          <ProtectedRoute exact path="/Judge" component={Judge}/>
+          <ProtectedRoute exact path="/Team" component={Team}/>
         </switch>
       </Router>
     );

@@ -1,3 +1,20 @@
+import React, { Component } from 'react';
+export default class Team extends Component{
+    constructor(props){
+        super(props)
+        this.state = {
+            Name : props.Name
+        }
+    }
+    render(){
+        return( 
+        <div>
+            <h1>This is the Team Page</h1>
+            <h1>You are {this.state.Name}</h1>
+        </div>
+        )
+    }
+}
 // import React, { Component } from 'react';
 // import axios from 'axios'
 // import { BrowserRouter as Router, Route, Link } from "react-router-dom";
