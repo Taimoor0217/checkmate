@@ -17,24 +17,28 @@ export default class ParticipantLogin extends Component{
             LogInCompetitionName : '',
         }
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChange = this.handleChange.bind(this)
+        this.handleChange = this.handleChange.bind(this);
+        this.showerr = this.showerr.bind(this);
     }
     handleChange(e){
         this.setState({ [e.target.name] : e.target.value  })
+    }
+    showerr(e){
+        this.setState({error : e})
     }
     handleSubmit(e){
         e.preventDefault()
         switch(e.target.name){
             case 'LogInTeam':
-                auth.login("Team" , this.state.LogInCompetitionName ,this.state.LogInTeamName , this.state.LogInTeamPassword , ()=>{
+                auth.login("Teams" , this.state.LogInCompetitionName ,this.state.LogInTeamName , this.state.LogInTeamPassword , ()=>{
                     this.props.history.push("/Team"); 
-                } , ()=>this.setState({error : "InValid UserName/Password"}))
+                } , this.showerr)
                 document.getElementById(e.target.name).reset();
                 break;
             case 'LogInJudge':
-                auth.login("Judge" , this.state.LogInCompetitionName ,this.state.LogInJudgeName , this.state.LogInJudgePassword , ()=>{
+                auth.login("Judges" , this.state.LogInCompetitionName ,this.state.LogInJudgeName , this.state.LogInJudgePassword , ()=>{
                     this.props.history.push("/Judge"); 
-                } , ()=>this.setState({error : "InValid UserName/Password"}))
+                } , this.showerr)
                 document.getElementById(e.target.name).reset();
                 break;
             default:
@@ -53,10 +57,10 @@ export default class ParticipantLogin extends Component{
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                         <form Name ="LogInTeam" id ="LogInTeam" onSubmit = {this.handleSubmit}>
-                            <input Name = "LogInTeamName" placeholder ="Team Name" type = 'text' onChange={this.handleChange} required= "true"></input>
-                            <input Name = "LogInTeamPassword" placeholder ="Password" type = 'password' onChange={this.handleChange} required= "true" ></input>
-                            <input Name = "LogInCompetitionName" placeholder ="Competition Name" type = 'text' onChange={this.handleChange} required= "true"></input>
-                            <input type = 'Submit' value = "LogIn"></input>
+                            <input className ="initialForm" Name = "LogInTeamName" placeholder ="Team Name" type = 'text' onChange={this.handleChange} required= "true"></input>
+                            <input className ="initialForm" Name = "LogInTeamPassword" placeholder ="Password" type = 'password' onChange={this.handleChange} required= "true" ></input>
+                            <input className ="initialForm" Name = "LogInCompetitionName" placeholder ="Competition Name" type = 'text' onChange={this.handleChange} required= "true"></input>
+                            <input className ="initialFormSubmit" type = 'Submit' value = "LogIn"></input>
                         </form>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
@@ -67,10 +71,10 @@ export default class ParticipantLogin extends Component{
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                         <form Name ="LogInJudge" id ="LogInJudge" onSubmit = {this.handleSubmit}>
-                            <input Name = "LogInJudgeName" placeholder ="Team Name" type = 'text' onChange={this.handleChange} required= "true"></input>
-                            <input Name = "LogInJudgePassword" placeholder ="Password" type = 'password' onChange={this.handleChange} required= "true" ></input>
-                            <input Name = "LogInCompetitionName" placeholder ="Competition Name" type = 'text' onChange={this.handleChange} required= "true"></input>
-                            <input type = 'Submit' value = "LogIn"></input>
+                            <input className ="initialForm" Name = "LogInJudgeName" placeholder ="Team Name" type = 'text' onChange={this.handleChange} required= "true"></input>
+                            <input className ="initialForm" Name = "LogInJudgePassword" placeholder ="Password" type = 'password' onChange={this.handleChange} required= "true" ></input>
+                            <input className ="initialForm" Name = "LogInCompetitionName" placeholder ="Competition Name" type = 'text' onChange={this.handleChange} required= "true"></input>
+                            <input className ="initialFormSubmit" type = 'Submit' value = "LogIn"></input>
                         </form>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>

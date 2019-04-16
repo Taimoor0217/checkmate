@@ -6,13 +6,13 @@ import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-
-const LINK = 'http://10.130.60.5:8300/'
+import LINK from './link'
+// const LINK = 'http://10.130.60.5:8300/'
 export default class Admin extends Component{
     constructor(){
         super()
         this.state = {
-            UserName :'Taimoor',
+            UserName : '' ,
             Initial : true,
             CompName: '',
             No_Teams:'',
@@ -31,10 +31,14 @@ export default class Admin extends Component{
             dbOutputFile: null
 
         }
+        this.componentWillMount = this.componentWillMount.bind(this)
         this.componentDidMount = this.componentDidMount.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this)
 
+    }
+    componentWillMount(){
+        this.setState({UserName:this.props.UserName})
     }
     componentDidMount(){
           axios.get(LINK + 'checkcomp' , {

@@ -8,9 +8,25 @@ export const ProtectedRoute = ({ component: Component, ...rest }) => {
       {...rest}
       render={props => {
         if (auth.isAuthenticated()) {
-          return <Component {...props} Name ={auth.UserName} />;
+          if(rest.type == "Admin"){
+            return <Component {...props} UserName ={auth.UserName} />;
+          }else{
+            return <Component {...props} Name ={auth.UserName} />;
+          }
         } else {
-          return (
+          if(rest.type == "Admin"){
+              return (
+              <Redirect
+                to={{
+                  pathname: "/LogIn",
+                  state: {
+                    error: true
+                  }
+                }}
+              />
+            );
+          }else{
+            return (
             <Redirect
               to={{
                 pathname: "/ParticipantLogin",
@@ -20,6 +36,7 @@ export const ProtectedRoute = ({ component: Component, ...rest }) => {
               }}
             />
           );
+          }
         }
       }}
     />

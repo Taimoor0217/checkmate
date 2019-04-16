@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route} from "react-router-dom";
+import { BrowserRouter as Router, Route , Switch} from "react-router-dom";
 import Team from './Team'
 import Admin from './Admin'
 import Judge from './Judge'
@@ -13,7 +13,9 @@ import { Nav } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import auth from "./Auth";
 import ParticipantLogin from './ParticipantLogin'
-
+import SignUp from './SignUp'
+import LINK from './link'
+import LogIn from './LogIn'
 const socket = io('10.130.60.5:8300')
 function SimpleAppBar(props) {
   return (
@@ -22,12 +24,11 @@ function SimpleAppBar(props) {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
-              {/* <Nav.Link href="/SignUp">SignUp</Nav.Link> */}
             </Nav>
             <Nav className = 'NavElem'>
-              <Nav.Link href="/pricing">Pricing</Nav.Link>
-              <Nav.Link href="/AboutUs">About</Nav.Link>
+              <Nav.Link href="/SignUp">SignUp</Nav.Link>
               <Nav.Link href="/ContactUs">Contact Us</Nav.Link>
+              <Nav.Link href="/pricing">Pricing</Nav.Link>
             </Nav>
           </Navbar.Collapse>
       </Navbar>
@@ -53,13 +54,15 @@ class App extends Component {
     return (
       <Router>
         {<SimpleAppBar/>}
-        <switch>
-          <Route path ="/admin" component = {Admin}/>
+        <Switch>
+          <Route path ="/SignUp" component = {SignUp}/>
+          <Route path ="/LogIn" component = {LogIn}/>
           <Route path ="/ParticipantLogin" component = {ParticipantLogin}/>
           <Route exact path ="/" component = {HOME} />
+          <ProtectedRoute path ="/admin" component = {Admin} type ="Admin"/>
           <ProtectedRoute exact path="/Judge" component={Judge}/>
           <ProtectedRoute exact path="/Team" component={Team}/>
-        </switch>
+        </Switch>
       </Router>
     );
   }

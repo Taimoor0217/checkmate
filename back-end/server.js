@@ -33,29 +33,83 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                 console.log(socket.id, d)
             })
         })
+        app.get('/verifyparticipant' , (req , res)=>{
+            // console.log(req.query)
+            creds = req.query
+            COMPETITION.findOne({ Name: creds.Competition }, (e, d) => {
+                if(e){
+                    res.send({
+                        val : false,
+                        message : "Invalid Competition Name!"
+                    })
+                    res.end()
+                }else{
+                    var x = d[creds.Role]
+                    var R = x.find(function(e){return (e.UserName == creds.UserName && e.Password == creds.Password)})
+                    // console.log(R)
+                    if( R.UserName == creds.UserName && R.Password == creds.Password){
+                        res.send({
+                            val : true,
+                            message : "LogIn Successful"
+                        })
+                        res.end()
+                    }else{
+                        res.send({
+                            val : false,
+                            message : "Invalid UserName/Password"
+                        })
+                        res.end()
+                    }
+                }
+            })
+        })
+        app.get('/verifyUser' , (req , res)=>{
+            creds = req.query
+            USERS.findOne({UserName : creds.UserName} , (e , d)=>{
+                // console.log(e , d)
+                if(d && d.Password === req.query.Password){
+                    res.send({
+                        val : true,
+                        message : "LogIn Successful"
+                    })
+                    res.end()
+                }else{
+                    res.send({
+                        val: false,
+                        message : "Invalid UserName/Password"
+                    })
+                    res.end()
+                }
+            })
+        })
         app.get('/checkcomp', (req, res) => {
             let name = req.query.Name
             USERS.findOne({ UserName: name }, (err, data) => {
-                let comp = data.CompetitionID
-                if (! comp ) {
-                    res.send('404')
+                if(err){
                     res.end()
-                } else {
-                    COMPETITION.findOne({ Name: comp }, (e, d) => {
-                        const state = {
-                            UserName: name,
-                            Initial: false,
-                            CompName: d.Name,
-                            No_Teams: d.Teams.length,
-                            No_Judges: d.Judges.length,
-                            Duration: d.TimeLimit,
-                            Teams: d.Teams,
-                            Judges: d.Judges,
-                            Problems: d.Problems,
-                        }
-                        res.send(state)
+                }else if(data !== null){
+                    let comp = data.CompetitionID
+                    if (! comp ) {
+                        res.send('404')
                         res.end()
-                    })
+                    } else {
+                        COMPETITION.findOne({ Name: comp }, (e, d) => {
+                            const state = {
+                                UserName: name,
+                                Initial: false,
+                                CompName: d.Name,
+                                No_Teams: d.Teams.length,
+                                No_Judges: d.Judges.length,
+                                Duration: d.TimeLimit,
+                                Teams: d.Teams,
+                                Judges: d.Judges,
+                                Problems: d.Problems,
+                            }
+                            res.send(state)
+                            res.end()
+                        })
+                    }
+
                 }
             })
         })
@@ -113,6 +167,12 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                         console.log(`A new Judge added to DB ${Competition}`)
                     }
                 })
+            res.end()
+        })
+        app.post('/SignUp' , (req , res)=>{
+            data = req.body
+            USERS.create({...data})
+            res.send({})
             res.end()
         })
         // app.post('/DBFile', upload.single('SentFile'), (req, res) => {

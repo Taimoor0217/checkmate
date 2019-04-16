@@ -2,6 +2,7 @@ const mongoose =  require('mongoose')
 const USER_SCHEMA = new mongoose.Schema({
     UserName: String,
     Password: String,
+    EmailID : String,
     CompetitionID: String
 })
 const JUDGE_SCHEMA = new mongoose.Schema({
@@ -10,7 +11,7 @@ const JUDGE_SCHEMA = new mongoose.Schema({
 })
 const TEAM_SCHEMA = new mongoose.Schema({
     UserName: String,
-    Password: String,
+    Password: String,   
     Solved: [String],
     Score: Number
 })
