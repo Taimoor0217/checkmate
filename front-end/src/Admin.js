@@ -49,7 +49,7 @@ export default class Admin extends Component{
           .then((d)=>{
               if(d.data !== '404'){
                   this.setState(d.data)
-                  this.setState({Problems:[{Name:"Problem 1"} ,{Name:"Problem 1"} ,{Name:"Problem 1"} , {Name :"Problem 2"}]})
+                //   this.setState({Problems:[{Name:"Problem 1"} ,{Name:"Problem 1"} ,{Name:"Problem 1"} , {Name :"Problem 2"}]})
               }
           })
           .catch(err=>{
@@ -118,14 +118,26 @@ export default class Admin extends Component{
                 // const data = {
                 //     Competition : this.state.CompName,
                 //     ProblemName : this.state.dbProblemName,
-                //     SelectedFiles : [this.state.dbInputFile , this.state.dbOutputFile]
+                //     InputFile : this.state.dbInputFile,
+                //     OutputFile : this.state.dbOutputFile
                 // }
-                let SelectedFiles = [this.state.dbInputFile , this.state.dbOutputFile]
-                let formData = new FormData();
-                formData.append('Competition', this.state.CompName);
-                formData.append('ProblemName', this.state.dbProblemName);
-                formData.append('SelectedFiles', SelectedFiles);
-                axios.post(LINK + 'DBFiles' , formData)
+                let formDataInput = new FormData();
+                let formDataOutput = new FormData();
+                formDataInput.append('Competition', this.state.CompName);
+                formDataInput.append('ProblemName', this.state.dbProblemName);
+                formDataInput.append('InputFile', this.state.dbInputFile);
+
+                formDataOutput.append('Competition', this.state.CompName);
+                formDataOutput.append('ProblemName', this.state.dbProblemName);
+                formDataOutput.append('OutputFile', this.state.dbOutputFile);
+                
+                axios.post(LINK + 'ProbInput' , formDataInput)
+                .then(d =>{
+                    axios.post(LINK + 'ProbOutput' , formDataOutput)
+                    .then(d => {})
+                    .catch(e => console.log(e))  
+                })
+                .catch(e => console.log(e))
                 document.getElementById("DBPROB").reset();
                 break;
             default:

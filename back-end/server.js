@@ -3,10 +3,12 @@ const mongoose = require('mongoose')
 const SOCKIO = require('socket.io')
 const app = require('express')()
 const http = require('http')
+const path = require('path')
 const schemas = require('./Schemas.js')
 const multer = require('multer')
 const server = http.createServer(app)
 const io = SOCKIO(server)
+const uuidv4 = require('uuid/v4')
 const accounts = require('./accounts-generator.js')
 var cors = require('cors'); 
 let USERS = '', COMPETITION = ''
@@ -44,10 +46,12 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                     })
                     res.end()
                 }else{
+                    console.log(creds.Role)
                     var x = d[creds.Role]
+                    // console.log(x)
                     var R = x.find(function(e){return (e.UserName == creds.UserName && e.Password == creds.Password)})
                     // console.log(R)
-                    if( R.UserName == creds.UserName && R.Password == creds.Password){
+                    if(R && R.UserName == creds.UserName && R.Password == creds.Password){
                         res.send({
                             val : true,
                             message : "LogIn Successful"
@@ -175,11 +179,31 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
             res.send({})
             res.end()
         })
-        // app.post('/DBFile', upload.single('SentFile'), (req, res) => {
-        //     console.log(req.body)
-        //     console.log(`A file saved uploades with name : ${req.file.orignalname}`)
-        //     res.send(`File has been saved`);
-        // });
+        app.post('/ProbInput', upload.single('InputFile'), (req, res) => {
+            // console.log(req.body)
+            // console.log(req.file)
+            // console.log(`A file saved with name : ${req.file.filename}`)
+            // const CompName = req.body.Competition
+            // const ProblemName = req.body.ProblemName
+            // const Input_Path
+            const fileinfo = {
+                ProblemName : req.body.ProblemName,
+                Input_Path : req.file.path,
+                Output_Path : ''
+            }
+            const filehash = req.file.filename
+            COMPETITION.findOneAndUpdate(
+                {Name: req.body.Competition},
+                {$push :{Problems : fileinfo}} , (e , d)=>{
+                    if(e){
+                        console.log(e)
+                    }else{
+                        console.log(`A new File added to DB ${req.body.Competition}`)
+                    }
+                })
+            res.send(`File has been saved`);
+            res.end()
+        });
         server.listen(8300, () => console.log('SERVER Listning On THE PORT'))
     })
     .catch((err) => console.log(err))
