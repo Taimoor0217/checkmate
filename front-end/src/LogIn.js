@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import auth from "./Auth";
 import { Container } from 'react-bootstrap';
+import { Nav } from 'react-bootstrap';
 
 
 export default class LogIn extends Component{
@@ -40,6 +41,7 @@ export default class LogIn extends Component{
                             <input className ="initialForm" Name = "Password" placeholder ="Password" type = 'password' onChange={this.handleChange} required= "true" ></input>
                             <br></br>
                             <input className ="initialFormSubmit" type = 'Submit' value = "LogIn"></input>
+                            <h6>Do not have an Account? <a href="/SignUp">SignUp</a></h6>
                         </form>
                     </div>
                 </Container>

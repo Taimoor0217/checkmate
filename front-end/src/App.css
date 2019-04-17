@@ -85,6 +85,7 @@ li{
   border-radius: 4px;
   box-sizing: border-box
 }
+
 input::placeholder {
   color:black;
   font-size: 1.2em;
@@ -173,6 +174,7 @@ input::placeholder {
   border-radius: 0.5em;
   width: 50%;
 }
+
 .HomeButton{
   border:1px solid white;
   padding:3%; 
@@ -226,6 +228,6 @@ h2,h3,h1{
 }
 .LogInPage{
   padding-top: 8%; 
-  width : 40%;
-  margin-left: 30%
+  width : 70%;
+  margin-left: 13%
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import LINK from './link'
+import { Nav } from 'react-bootstrap';
 import { Container } from 'react-bootstrap';
 import { Route, Redirect } from "react-router-dom";
 export default class SignUp extends Component{
@@ -41,6 +42,7 @@ export default class SignUp extends Component{
                         <input className ="initialForm" Name = "Password" placeholder ="Password" type = 'text' onChange={this.handleChange} required= "true"></input>
                         <input className ="initialForm" Name = "Email" placeholder ="Email Address" type = 'email' onChange={this.handleChange} required= "true"></input>
                         <input className ="initialFormSubmit" type = 'Submit' value = "Sign Up"></input>
+                        <h6>Already have an account ? <a href="/LogIn">LogIn</a></h6>
                     </form>
             </Container>
         </div>
