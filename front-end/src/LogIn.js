@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import auth from "./Auth";
 import { Container } from 'react-bootstrap';
-import { Nav } from 'react-bootstrap';
+// import { Nav } from 'react-bootstrap';
 
 
 export default class LogIn extends Component{

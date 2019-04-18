@@ -180,18 +180,12 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
             res.end()
         })
         app.post('/ProbInput', upload.single('InputFile'), (req, res) => {
-            // console.log(req.body)
-            // console.log(req.file)
-            // console.log(`A file saved with name : ${req.file.filename}`)
-            // const CompName = req.body.Competition
-            // const ProblemName = req.body.ProblemName
-            // const Input_Path
             const fileinfo = {
                 ProblemName : req.body.ProblemName,
                 Input_Path : req.file.path,
                 Output_Path : ''
             }
-            const filehash = req.file.filename
+            // const filehash = req.file.filename
             COMPETITION.findOneAndUpdate(
                 {Name: req.body.Competition},
                 {$push :{Problems : fileinfo}} , (e , d)=>{
@@ -204,6 +198,20 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
             res.send(`File has been saved`);
             res.end()
         });
+        app.post('/ProbOutput', upload.single('OutputFile'), (req, res) => {
+            COMPETITION.update(
+                {Name:req.body.Competition , "Problems.ProblemName" : req.body.ProblemName},
+                {$set : {"Problems.$.Output_Path": req.file.path}}
+            , (e , d)=>{
+                if(e){
+                    console.log(e)
+                }else{
+                    res.send(`File has been saved`);
+                    res.end()
+                }
+            })
+        });
+        
         server.listen(8300, () => console.log('SERVER Listning On THE PORT'))
     })
     .catch((err) => console.log(err))

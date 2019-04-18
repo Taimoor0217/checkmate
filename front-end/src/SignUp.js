@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import LINK from './link'
-import { Nav } from 'react-bootstrap';
+// import { Nav } from 'react-bootstrap';
 import { Container } from 'react-bootstrap';
-import { Route, Redirect } from "react-router-dom";
+// import { Route, Redirect } from "react-router-dom";
 export default class SignUp extends Component{
     constructor(props){
         super(props)

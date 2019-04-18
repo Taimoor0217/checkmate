@@ -4,19 +4,21 @@ import { BrowserRouter as Router, Route , Switch} from "react-router-dom";
 import Team from './Team'
 import Admin from './Admin'
 import Judge from './Judge'
+import LandingPage from './LandingPage'
+
 import { ProtectedRoute } from "./ProtectedRoute";
-import socketIOClient from 'socket.io-client'
-import io from 'socket.io-client'
+// import socketIOClient from 'socket.io-client'
+// import io from 'socket.io-client'
 import { Navbar } from 'react-bootstrap';
 import { Container } from 'react-bootstrap';
 import { Nav } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
-import auth from "./Auth";
+// import auth from "./Auth";
 import ParticipantLogin from './ParticipantLogin'
 import SignUp from './SignUp'
-import LINK from './link'
+// import LINK from './link'
 import LogIn from './LogIn'
-const socket = io('10.130.60.5:8300')
+// const socket = io('10.130.60.5:8300')
 function SimpleAppBar(props) {
   return (
       <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
@@ -58,7 +60,8 @@ class App extends Component {
           <Route path ="/SignUp" component = {SignUp}/>
           <Route path ="/LogIn" component = {LogIn}/>
           <Route path ="/ParticipantLogin" component = {ParticipantLogin}/>
-          <Route exact path ="/" component = {HOME} />
+          <Route exact path ="/getstarted" component = {HOME} />
+          <Route exact path ="/" component = {LandingPage} />
           <ProtectedRoute path ="/admin" component = {Admin} type ="Admin"/>
           <ProtectedRoute exact path="/Judge" component={Judge}/>
           <ProtectedRoute exact path="/Team" component={Team}/>

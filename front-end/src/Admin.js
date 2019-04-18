@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import './App.css';
+import { Button } from 'react-bootstrap';
 import { Container } from 'react-bootstrap';
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -20,7 +21,7 @@ export default class Admin extends Component{
             Duration: '',
             Teams: null,
             Judges: null,
-            Problems:[{Name:"Problem 1"} , {Name :"Problem 2"}],
+            Problems:[],
             dbTeamName: null ,
             dbTeamPassword:null,
             dbTeamScore: null,
@@ -114,13 +115,9 @@ export default class Admin extends Component{
                 document.getElementById("DBJUDGE").reset();
                 break;
             case 'DBPROB':
-                // console.log('NEW PROB')
-                // const data = {
-                //     Competition : this.state.CompName,
-                //     ProblemName : this.state.dbProblemName,
-                //     InputFile : this.state.dbInputFile,
-                //     OutputFile : this.state.dbOutputFile
-                // }
+                const p = {
+                    ProblemName: this.state.dbProblemName
+                }
                 let formDataInput = new FormData();
                 let formDataOutput = new FormData();
                 formDataInput.append('Competition', this.state.CompName);
@@ -134,7 +131,11 @@ export default class Admin extends Component{
                 axios.post(LINK + 'ProbInput' , formDataInput)
                 .then(d =>{
                     axios.post(LINK + 'ProbOutput' , formDataOutput)
-                    .then(d => {})
+                    .then(d => {
+                        var probs = this.state.Problems
+                        probs.push(p)
+                        this.setState({Problems : probs})
+                    })
                     .catch(e => console.log(e))  
                 })
                 .catch(e => console.log(e))
@@ -205,6 +206,16 @@ export default class Admin extends Component{
                 ):( 
                     <div>
                         <center><h2> {this.state.CompName} </h2></center>
+                        <div>
+                            <br></br>
+                            <Button className= "DownloadButton" variant="secondary" size="" href="#">
+                            Download Passwords
+                            </Button>
+                            <Button className= "StartButton" variant="secondary" size="" href="#">
+                            Start Competition
+                            </Button>
+                        </div>
+                        
                         <div className = "Dashboard-elem">
                         <div className = "SUM">
                             <ExpansionPanel>
@@ -227,7 +238,7 @@ export default class Admin extends Component{
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
                                     <div className = "scrollable">
-                                        {this.state.Judges.map(j=> <li className = "listElem"> {j.UserName } </li>)}
+                                        {this.state.Judges.map(j=> <li id={j.UserName} className = "listElem"> {j.UserName } </li>)}
                                     </div>
                                 </ExpansionPanelDetails>
                             </ExpansionPanel>
@@ -257,7 +268,7 @@ export default class Admin extends Component{
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails >
                                 <div className = "scrollable">
-                                        {this.state.Teams.map(T=> <li className = "listElem"> {T.UserName } </li>)}
+                                        {this.state.Teams.map(T=> <li id ={T.UserName} className = "listElem"> {T.UserName } </li>)}
                                 </div>
                                 </ExpansionPanelDetails>
                             </ExpansionPanel>
@@ -289,7 +300,7 @@ export default class Admin extends Component{
                                     </ExpansionPanelSummary>
                                     <ExpansionPanelDetails>
                                         <div className = "scrollable">
-                                            {this.state.Problems.map(P => <li className = "listElem"> {P.Name } </li>)}
+                                            {this.state.Problems.map(P => <li id ={P.ProblemName} className = "listElem"> {P.ProblemName } </li>)}
                                         </div>
                                     </ExpansionPanelDetails>
                                 </ExpansionPanel>

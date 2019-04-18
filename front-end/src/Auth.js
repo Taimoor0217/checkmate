@@ -16,7 +16,7 @@ class Auth {
       }
     })
     .then(d =>{
-      if(d.data.val == true){
+      if(d.data.val === true){
         this.UserName = UserName
         this.authenticated = true
         cb1()
@@ -39,7 +39,7 @@ class Auth {
       }
     })
     .then(d =>{
-      if(d.data.val == true){
+      if(d.data.val === true){
         this.competitionName = Competition
         this.UserName = Name
         this.Role = Role

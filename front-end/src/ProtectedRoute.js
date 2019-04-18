@@ -8,13 +8,13 @@ export const ProtectedRoute = ({ component: Component, ...rest }) => {
       {...rest}
       render={props => {
         if (auth.isAuthenticated()) {
-          if(rest.type == "Admin"){
+          if(rest.type === "Admin"){
             return <Component {...props} UserName ={auth.UserName} />;
           }else{
             return <Component {...props} Name ={auth.UserName} />;
           }
         } else {
-          if(rest.type == "Admin"){
+          if(rest.type === "Admin"){
               return (
               <Redirect
                 to={{
