@@ -46,24 +46,33 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                     })
                     res.end()
                 }else{
-                    console.log(creds.Role)
-                    var x = d[creds.Role]
-                    // console.log(x)
-                    var R = x.find(function(e){return (e.UserName == creds.UserName && e.Password == creds.Password)})
-                    // console.log(R)
-                    if(R && R.UserName == creds.UserName && R.Password == creds.Password){
+                    if(!d){
                         res.send({
-                            val : true,
-                            message : "LogIn Successful"
+                            val : false,
+                            message : "Invalid Competition Name!"
                         })
                         res.end()
                     }else{
-                        res.send({
-                            val : false,
-                            message : "Invalid UserName/Password"
-                        })
-                        res.end()
+                        
+                        var x = d[creds.Role]
+                        // console.log(x)
+                        var R = x.find(function(e){return (e.UserName == creds.UserName && e.Password == creds.Password)})
+                        // console.log(R)
+                        if(R && R.UserName == creds.UserName && R.Password == creds.Password){
+                            res.send({
+                                val : true,
+                                message : "LogIn Successful"
+                            })
+                            res.end()
+                        }else{
+                            res.send({
+                                val : false,
+                                message : "Invalid UserName/Password"
+                            })
+                            res.end()
+                        }
                     }
+                    // console.log(creds.Role)
                 }
             })
         })
@@ -71,17 +80,53 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
             creds = req.query
             USERS.findOne({UserName : creds.UserName} , (e , d)=>{
                 // console.log(e , d)
-                if(d && d.Password === req.query.Password){
+                if(!d){
                     res.send({
-                        val : true,
-                        message : "LogIn Successful"
+                        val : false,
+                        message : "Invalid Competition Name!"
                     })
                     res.end()
                 }else{
-                    res.send({
-                        val: false,
-                        message : "Invalid UserName/Password"
-                    })
+                    if(d && d.Password === req.query.Password){
+                        res.send({
+                            val : true,
+                            message : "LogIn Successful"
+                        })
+                        res.end()
+                    }else{
+                        res.send({
+                            val: false,
+                            message : "Invalid UserName/Password"
+                        })
+                        res.end()
+                    }
+                }
+            })
+        })
+        app.get('/TeamProblems' , (req , res)=>{
+            data = req.query
+            COMPETITION.findOne({Name : data.Competition} , (err , d)=>{
+                if(err || !d){
+                    console.log(err)
+                    res.end()
+                }else{
+                    var Problems = d.Problems
+                    var RESPONSE = []
+                    var Team = d.Teams.find(function(e){return (e.UserName == data.TeamName)})
+                    // var solved = ['KINGSMAN' , 'WHO TOOK WILL']
+                    var solved = Team.Solved
+                    for(i = 0 ; i < Problems.length ; i++ ){
+                        var v = "UnSolved"
+                        if(solved.indexOf(Problems[i].ProblemName) > -1){
+                            v = "Solved"
+                        }
+                        RESPONSE.push({
+                            Name: Problems[i].ProblemName,
+                            Status: v
+                        })
+                    }
+                    console.log(RESPONSE)
+                    res.send(RESPONSE)
                     res.end()
                 }
             })

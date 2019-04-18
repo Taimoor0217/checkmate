@@ -7,11 +7,12 @@ export const ProtectedRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={props => {
+        // return <Component {...props} CompName={auth.competitionName}  Name ={auth.UserName} />;
         if (auth.isAuthenticated()) {
           if(rest.type === "Admin"){
             return <Component {...props} UserName ={auth.UserName} />;
           }else{
-            return <Component {...props} Name ={auth.UserName} />;
+            return <Component {...props} CompName={auth.competitionName}  Name ={auth.UserName} />;
           }
         } else {
           if(rest.type === "Admin"){
