@@ -52,12 +52,12 @@ export default class SignUp extends Component{
                 }),
                 bodyClassName: "SuccessToast",
                 position: "top-center",
-                autoClose: 1000,
+                autoClose: 2000,
                 hideProgressBar: true,
                 pauseOnHover: true,
                 draggable: true
                 });
-                hold(1000)
+                hold(2000)
                 .then(()=>{
                     this.props.history.push("/LogIn");
                 })

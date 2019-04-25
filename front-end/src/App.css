@@ -260,9 +260,6 @@ body{
   font-weight: 650;
   font-size: 6em;
 }
-.ProblemStatement{
-  padding-left: 3% 
-}
 .ProblemStatus{
   position: absolute;
   padding: 1%;

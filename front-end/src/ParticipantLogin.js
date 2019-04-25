@@ -48,7 +48,7 @@ export default class ParticipantLogin extends Component{
             }),
             bodyClassName: "SuccessToast",
             position: "top-center",
-            autoClose: 2000,
+            autoClose: 1000,
             hideProgressBar: true,
             pauseOnHover: true,
             draggable: true
@@ -59,7 +59,32 @@ export default class ParticipantLogin extends Component{
         switch(e.target.name){
             case 'LogInTeam':
                 auth.login("Teams" , this.state.LogInCompetitionName ,this.state.LogInTeamName , this.state.LogInTeamPassword , ()=>{
-                    this.props.history.push("/Team"); 
+                    toast('LogIn Successful!', {
+                        className: css({
+                            "margin-top":"16%",
+                            "color" : "green",
+                            fontSize: '210%',
+                            fontFamily : 'Bree serif',
+                            "text-align" : "center",
+                            width: "130%",
+                            height: "110px",
+                            "border" : "2px solid white"
+    
+                        }),
+                        bodyClassName: css({
+                            fontSize: '60px'
+                        }),
+                        bodyClassName: "SuccessToast",
+                        position: "top-center",
+                        autoClose: 1000,
+                        hideProgressBar: true,
+                        pauseOnHover: true,
+                        draggable: true
+                        });
+                    hold(1000)
+                    .then(()=>{
+                        this.props.history.push("/Team"); 
+                    })
                 } , this.showerr)
                 document.getElementById(e.target.name).reset();
                 break;
@@ -87,7 +112,7 @@ export default class ParticipantLogin extends Component{
                         pauseOnHover: true,
                         draggable: true
                         });
-                    hold(2000)
+                    hold(1000)
                     .then(()=>{
                         this.props.history.push("/Judge"); 
                     })
@@ -101,6 +126,17 @@ export default class ParticipantLogin extends Component{
     render(){
         return (
             <div>
+                <ToastContainer 
+                    position="top-center"
+                    autoClose={1000}
+                    hideProgressBar
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnVisibilityChange={false}
+                    draggable
+                    pauseOnHover
+                />
                 <center><h3>{this.state.error}</h3></center>
                 <center><h1>Please Login First</h1></center>
               <div className = "LogInPage">

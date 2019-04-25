@@ -61,15 +61,16 @@ export default class LogIn extends Component{
                         "text-align" : "center",
                         width: "130%",
                         height: "110px",
-                        "border" : "2px solid white"
-
+                        "border" : "2px solid green",
+                        "border-radius" : "2px"
+                        
                     }),
                     bodyClassName: css({
                         fontSize: '60px'
                     }),
                     bodyClassName: "SuccessToast",
                     position: "top-center",
-                    autoClose: 1000,
+                    autoClose: 2000,
                     hideProgressBar: true,
                     pauseOnHover: true,
                     draggable: true
@@ -91,6 +92,7 @@ export default class LogIn extends Component{
                     newestOnTop={false}
                     closeOnClick
                     rtl={false}
+                    slide
                     pauseOnVisibilityChange={false}
                     draggable
                     pauseOnHover

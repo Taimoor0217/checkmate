@@ -10,7 +10,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import LINK from './link'
 // const LINK = 'http://10.130.60.5:8300/'
 export default class Admin extends Component{
-    constructor(){s
+    constructor(){
         super()
         this.state = {
             UserName : '' ,
@@ -193,6 +193,7 @@ export default class Admin extends Component{
                 { this.state.Initial ?(
                     <div id= "INITIALINFO" className = "DivWithBackground">
                         <Container  className = "AdminForm">
+                                <center><h3>Please enter the Initial Information of the Competition</h3></center>
                                 <form Name = "INITIALINFO" onSubmit = {this.handleSubmit}>
                                     <input className ="initialForm" Name = "NAME" placeholder ="Competition Name" type = 'text' onChange={this.handleChange} required= "true"></input>
                                     <input className ="initialForm" Name = "noTeams" placeholder ="Number of Teams" type = 'text' onChange={this.handleChange} required= "true" ></input>
