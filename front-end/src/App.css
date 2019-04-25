@@ -11,7 +11,6 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
 .Dashboard-elem{
   display: flex;
   background-color: rgba(255, 255, 255, 0.644);
@@ -158,6 +157,7 @@ input::placeholder {
   border-radius: 0.5em;
   width: 50%;
 }
+
 .DivWithBackground{
   position: absolute;
   width: 100%;  
@@ -272,12 +272,21 @@ body{
   color: rgba(0, 0, 255, 0.664)
 }
 .Solved{
-  color: rgba(0, 128, 0, 0.596)
+  color: rgb(0, 128, 0)
+}
+.Pending{
+  color: rgb(255, 208, 0)
+}
+.Wrong{
+  color: rgb(255, 0, 0)
+}
+.Limit{
+  color: rgb(255, 0, 0)
 }
 .TeamProblem{
   padding-top: 1%;
-  padding-left: 10%;
-  padding-right: 10%
+  padding-left: 13%;
+  padding-right: 13%
 }
 .CheckMateTag{
   color: white;
@@ -317,6 +326,9 @@ h2,h3,h1,h4,h5,h6{
   background: url('./images/mac-book.jpg');
   background-size: cover;
   background-repeat: no-repeat;
+}
+.ProblemSubmit{
+  margin-left: 3%
 }
 #about{
   padding: 5%

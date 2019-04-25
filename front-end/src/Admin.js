@@ -10,7 +10,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import LINK from './link'
 // const LINK = 'http://10.130.60.5:8300/'
 export default class Admin extends Component{
-    constructor(){
+    constructor(){s
         super()
         this.state = {
             UserName : '' ,
@@ -312,4 +312,4 @@ export default class Admin extends Component{
             </div>
         )
     }
-}
+}       

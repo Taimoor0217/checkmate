@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import LINK from './link'
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
@@ -9,9 +9,13 @@ export default class Team extends Component{
     constructor(props){
         super(props)
         this.state = {
-            Problems : []
+            Problems : [],
+            SubmittedFile : ''
         }
         this.componentDidMount = this.componentDidMount.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this)
+        this.SetStatus = this.SetStatus.bind(this)
     }
     componentDidMount(){
         axios.get(LINK+ 'TeamProblems', {
@@ -27,6 +31,24 @@ export default class Team extends Component{
         .catch(e=>{
             console.log(e)
         })
+    }
+    handleChange(e){
+        this.setState({ [e.target.name] : e.target.files[0] })
+    }
+    SetStatus(target, status) {
+        var temp = this.state.Problems
+        for( var i = 0 ; i < temp.length ; i++){
+            if(temp[i].Name === target){
+                temp[i].Status = status
+            }
+        }
+        this.setState({Problems:temp})
+    }
+    handleSubmit(event){
+        event.preventDefault()
+        this.SetStatus(event.target.id , "Pending")
+        const id = event.target.id
+        setTimeout(()=>this.SetStatus(id , "Solved") , 4000)
     }
     render(){
         return( 
@@ -47,8 +69,8 @@ export default class Team extends Component{
                             </div>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
-                                <form>
-                                    <input type = 'file'required= "true" ></input>
+                                <form id ={p.Name} className = "ProblemSubmit" onSubmit = {this.handleSubmit}>
+                                    <input Name = "SubmittedFile" type = 'file' required= "true" onChange = {this.handleChange} ></input>
                                     <input type = 'Submit' value = "Submit"></input>
                                 </form>
                             </ExpansionPanelDetails>
@@ -61,80 +83,3 @@ export default class Team extends Component{
         )
     }
 }
-// import React, { Component } from 'react';
-// import axios from 'axios'
-// import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-// // const axios = require("axios");
-// class CodeSubmit extends Component{
-//     constructor(props){
-//         super(props)
-//         this.state = {
-//             selectedFile : '',
-//             description : ''
-//         };
-//         this.onChange = this.onChange.bind(this);
-//         this.onSubmit = this.onSubmit.bind(this);
-//     };
-//     onChange(e){
-//         switch (e.target.name) {
-//           case 'selectedFile':
-//             this.setState({ selectedFile: e.target.files[0] });
-//             break;
-//           default:
-//             this.setState({ [e.target.name]: e.target.value });
-//         }
-//     }
-//     onSubmit(e){
-//         e.preventDefault();
-//         const { description, selectedFile } = this.state;
-//         let formData = new FormData();
-
-//         formData.append('description', description);
-//         formData.append('selectedFile', selectedFile);
-//         axios.post('http://10.130.60.5:8600/', formData)
-//           .then((result) => {
-//             console.log('Result')
-//           })
-//           .catch((err)=>{
-//               console.log(err)
-//           })
-//         this.props.submitFile('f')
-//       }
-//       render() {
-//         const { description, selectedFile } = this.state;
-//         return (
-//           <form onSubmit={this.onSubmit}>
-//             <input
-//               type="text"
-//               name="description"
-//               value={description}
-//               onChange={this.onChange}
-//             />
-//             <input
-//               type="file"
-//               name="selectedFile"
-//               onChange={this.onChange}
-//             />
-//             <button type="submit">Submit</button>
-//           </form>
-//         );
-//     }
-
-
-// }
-// export default class Team extends Component{
-//     constructor(props){
-//         super(props);
-//     }
-//     render(){
-//         return (
-//             <center>
-//                 <h1>
-//                     <i>Please Submit Your Code Here</i>
-//                 </h1>
-//                 <CodeSubmit submitFile = {this.props.submitFile}/>
-//             </center>
-            
-//         )
-//     }
-// }

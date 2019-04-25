@@ -4,6 +4,13 @@ import LINK from './link'
 // import { Nav } from 'react-bootstrap';
 import { Container } from 'react-bootstrap';
 // import { Route, Redirect } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { css } from 'glamor';
+
+function hold(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 export default class SignUp extends Component{
     constructor(props){
         super(props)
@@ -28,7 +35,32 @@ export default class SignUp extends Component{
             CompetitionID: ''
         })
         .then(d=>{
-            this.props.history.push("/LogIn");
+            toast('SignUp Successful!', {
+                className: css({
+                    "margin-top":"16%",
+                    "color" : "green",
+                    fontSize: '210%',
+                    fontFamily : 'Bree serif',
+                    "text-align" : "center",
+                    width: "130%",
+                    height: "110px",
+                    "border" : "2px solid white"
+
+                }),
+                bodyClassName: css({
+                    fontSize: '60px'
+                }),
+                bodyClassName: "SuccessToast",
+                position: "top-center",
+                autoClose: 1000,
+                hideProgressBar: true,
+                pauseOnHover: true,
+                draggable: true
+                });
+                hold(1000)
+                .then(()=>{
+                    this.props.history.push("/LogIn");
+                })
         })
         .catch(e=>{
         })
@@ -36,6 +68,17 @@ export default class SignUp extends Component{
     render(){
         return( 
             <div className = "DivWithBackground">
+             <ToastContainer 
+                    position="top-center"
+                    autoClose={1000}
+                    hideProgressBar
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnVisibilityChange={false}
+                    draggable
+                    pauseOnHover
+                />
             <Container  className = "AdminForm">
                     <form Name = "INITIALINFO" onSubmit = {this.handleSubmit}>
                         <input className ="initialForm" Name = "UserName" placeholder ="User Name" type = 'text' onChange={this.handleChange} required= "true"></input>
