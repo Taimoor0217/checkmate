@@ -47,10 +47,10 @@ export default class SignUp extends Component{
                     "border" : "2px solid white"
 
                 }),
-                bodyClassName: css({
-                    fontSize: '60px'
-                }),
-                bodyClassName: "SuccessToast",
+                // bodyClassName: css({
+                //     fontSize: '60px'
+                // }),
+                // bodyClassName: "SuccessToast",
                 position: "top-center",
                 autoClose: 2000,
                 hideProgressBar: true,

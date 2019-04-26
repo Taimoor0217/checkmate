@@ -24,7 +24,6 @@ export default class LogIn extends Component{
         this.setState({ [e.target.name] : e.target.value  })
     }
     showerr(e){
-        // this.setState({error : e})
         toast('Invalid Credentials', {
             className: css({
                 "margin-top":"16%",
@@ -35,13 +34,9 @@ export default class LogIn extends Component{
                 "text-align" : "center",
                 width: "130%",
                 height: "110px",
-                "border" : "2px solid white"
+                "blurRadius" : "1"
 
             }),
-            bodyClassName: css({
-                fontSize: '60px'
-            }),
-            bodyClassName: "SuccessToast",
             position: "top-center",
             autoClose: 2000,
             hideProgressBar: true,
@@ -65,10 +60,6 @@ export default class LogIn extends Component{
                         "border-radius" : "2px"
                         
                     }),
-                    bodyClassName: css({
-                        fontSize: '60px'
-                    }),
-                    bodyClassName: "SuccessToast",
                     position: "top-center",
                     autoClose: 2000,
                     hideProgressBar: true,

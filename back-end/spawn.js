@@ -4,17 +4,17 @@
 // SUBMISSION: {     CompetitionName: String,     ProblemID: String,     SubmissionID: String,     TeamID: String,     Time: time,     Checked: bool } 
 
 //Chnaged
-var SUBMISSION = {
-  // ProblemID: 'p1',     
-  Code_File_Path: './uploads/hello.py',
-  Input_File_Path: './uploads/in.txt',
-  Output_File_Path: './uploads/out.txt',
-  lang: 'python',
-  checked: 0,
-  result : 'Incorrect',
-  output: null,
-  error: null,
-} 
+// var SUBMISSION = {
+//   // ProblemID: 'p1',     
+//   Code_File_Path: './uploads/hello.py',
+//   Input_File_Path: './uploads/in.txt',
+//   Output_File_Path: './uploads/out.txt',
+//   lang: 'python',
+//   checked: 0,
+//   result : 'Incorrect',
+//   output: null,
+//   error: null,
+// } 
 
 //func
 function evalPython(subObj){
@@ -48,7 +48,7 @@ function evalPython(subObj){
     
     //if error
     process.stderr.on('data', (data) => {
-      let err = data.toString().split("\n")
+      let err = data.toString().split("\r\n")
       subObj.error = err[err.length - 2]
       subObj.points = 0
       // console.log(subObj);
@@ -62,7 +62,7 @@ function evalPython(subObj){
       
       //only if no error
       if(code===0){
-        userOut = userOut.split("\n")
+        userOut = userOut.split("\r\n")
         orignalOut = orignalOut.split("\r\n")
         
         //not cheking last line as it is an empty line
@@ -100,8 +100,9 @@ function evalPython(subObj){
         // console.log(subObj);
         res (subObj);
       }
-    }, 1000);
+    }, 8000);
   });
 }
+module.exports.evalPython = evalPython
 
-evalPython(SUBMISSION).then(x => console.log(x))  
+// evalPython(SUBMISSION).then(x => console.log(x))  

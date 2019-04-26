@@ -43,10 +43,6 @@ export default class ParticipantLogin extends Component{
                 "border" : "2px solid white"
 
             }),
-            bodyClassName: css({
-                fontSize: '60px'
-            }),
-            bodyClassName: "SuccessToast",
             position: "top-center",
             autoClose: 1000,
             hideProgressBar: true,
@@ -71,10 +67,6 @@ export default class ParticipantLogin extends Component{
                             "border" : "2px solid white"
     
                         }),
-                        bodyClassName: css({
-                            fontSize: '60px'
-                        }),
-                        bodyClassName: "SuccessToast",
                         position: "top-center",
                         autoClose: 1000,
                         hideProgressBar: true,
@@ -102,10 +94,6 @@ export default class ParticipantLogin extends Component{
                             "border" : "2px solid white"
     
                         }),
-                        bodyClassName: css({
-                            fontSize: '60px'
-                        }),
-                        bodyClassName: "SuccessToast",
                         position: "top-center",
                         autoClose: 1000,
                         hideProgressBar: true,

@@ -46,9 +46,32 @@ export default class Team extends Component{
     }
     handleSubmit(event){
         event.preventDefault()
-        this.SetStatus(event.target.id , "Pending")
-        const id = event.target.id
-        setTimeout(()=>this.SetStatus(id , "Solved") , 4000)
+        const PROBNAME = event.target.id
+        this.SetStatus(PROBNAME , "Pending")
+        let formDataInput = new FormData();
+        formDataInput.append('Competition', this.props.CompName);
+        formDataInput.append('Team', this.props.Name);
+        formDataInput.append('SubmittedFile', this.state.SubmittedFile);
+        formDataInput.append('Problem' , PROBNAME)
+        axios.post(LINK + 'ProbSolution' , formDataInput)
+        .then(d =>{
+            if(d.data.error){
+                if(d.data.error === "Time Limit Exceeded"){
+                    this.SetStatus(PROBNAME, "TLE" )
+                }else{
+                    this.SetStatus(PROBNAME, "ERR" )
+                }
+            }else{
+                if(d.data.result === "Correct"){
+                    this.SetStatus(PROBNAME, "Solved" )
+                }else{
+                    this.SetStatus(PROBNAME, "Incorrect" )
+                }
+            }
+        })
+        .catch(e => console.log(e))
+        // const id = event.target.id
+        // setTimeout(()=>this.SetStatus(id , "Solved") , 4000)
     }
     render(){
         return( 

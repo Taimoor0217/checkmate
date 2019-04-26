@@ -274,10 +274,13 @@ body{
 .Pending{
   color: rgb(255, 208, 0)
 }
-.Wrong{
+.Incorrect{
   color: rgb(255, 0, 0)
 }
-.Limit{
+.ERR{
+  color: rgb(255, 0, 0)
+}
+.TLE{
   color: rgb(255, 0, 0)
 }
 .TeamProblem{

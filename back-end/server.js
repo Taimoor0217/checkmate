@@ -10,7 +10,9 @@ const server = http.createServer(app)
 const io = SOCKIO(server)
 const uuidv4 = require('uuid/v4')
 const accounts = require('./accounts-generator.js')
+const spawn = require('./spawn')
 var cors = require('cors'); 
+
 let USERS = '', COMPETITION = ''
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -125,7 +127,7 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                             Status: v
                         })
                     }
-                    console.log(RESPONSE)
+                    // console.log(RESPONSE)
                     res.send(RESPONSE)
                     res.end()
                 }
@@ -256,7 +258,77 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                 }
             })
         });
-        
-        server.listen(8300, () => console.log('SERVER Listning On THE PORT'))
+        app.post('/ProbSolution', upload.single('SubmittedFile'), (req, res) => {
+            // console.log(req.body)
+            // console.log(req.file.path)
+            COMPETITION.findOne({Name : req.body.Competition} , (e , d)=>{
+                //SUBMISSIONS
+                Problems = d.Problems
+                target = ''
+                for(i = 0 ; i < Problems.length ; i++){
+                    if(Problems[i].ProblemName === req.body.Problem){
+                        target = Problems[i]
+                    }
+                }
+                if(target === ''){
+                    res.send({
+                        result: "Incorrect",
+                        error : null
+                    })
+                    res.end()
+                }else{
+                    const SObj ={
+                        Code_File_Path: `./${req.file.path}`,
+                        Input_File_Path : `./${target.Input_Path}`,
+                        Output_File_Path : `./${target.Output_Path}`,
+                        lang: 'python',
+                        checked: 0,
+                        result : 'Incorrect',
+                        output: null,
+                        error: null
+                    }
+                    // console.log(SObj)
+                    spawn.evalPython(SObj)
+                    .then((D)=>{
+                        // console.log(D)
+                        if(D.result === "Correct"){
+                            COMPETITION.update(
+                                {Name:req.body.Competition , "Teams.UserName" : req.body.Team},
+                                {$push : {"Teams.$.Solved": req.body.Problem}}
+                            , (ERR , d)=>{
+                                if(ERR){
+                                    console.log(ERR)
+                                }else{
+                                    console.log('Submission Logged')
+                                }
+                            })   
+                            COMPETITION.update(
+                                {Name:req.body.Competition , "Teams.UserName" : req.body.Team},
+                                {$inc : {"Teams.$.Score": +10}}
+                            , (ERR , d)=>{
+                                if(ERR){
+                                    console.log(ERR)
+                                }else{
+                                    console.log('Score Updated')
+                                }
+                            })   
+                        }
+                        res.send({
+                            result: D.result,
+                            error : D.error
+                        })
+                        res.end()
+                    })
+                    .catch((e)=>{
+                        res.send({
+                            result: "Incorrect",
+                            error : null
+                        })
+                        console.log(e)
+                    })
+                }
+            })
+        });
+        server.listen(8400, () => console.log('SERVER Listning On THE PORT'))
     })
     .catch((err) => console.log(err))
