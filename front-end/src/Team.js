@@ -77,8 +77,9 @@ export default class Team extends Component{
         return( 
         <div>
             <center>
-                <h1>This is the {this.props.CompName}</h1>
-                <h1>You are {this.props.Name}</h1>
+                <div className = "CompDashboard"><h2>Welcome to {this.props.CompName}</h2></div>
+                <br></br>
+                {/* <h1>You are {this.props.Name}</h1> */}
             </center>
             <div>
                 {this.state.Problems.map(p =>{

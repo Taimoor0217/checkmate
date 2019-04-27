@@ -206,7 +206,7 @@ export default class Admin extends Component{
                     </div>
                 ):( 
                     <div>
-                        <center><h2> {this.state.CompName} </h2></center>
+                        <center> <div className = "CompDashboard"><h2> Welcome to {this.state.CompName} Dashboard</h2></div></center>
                         <div>
                             <br></br>
                             <Button className= "DownloadButton" variant="secondary" size="" href="#">

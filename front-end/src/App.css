@@ -194,7 +194,7 @@ input::placeholder {
   font-size: 130%;
   width: 20%;
   font-family: Bree serif;
-  background-color:rgba(0, 0, 0, 0.877);
+  background-color:rgba(4, 7, 27, 0.932)
   /* border-radius: 0.4em; */
 }
 .DownloadButton{
@@ -215,7 +215,7 @@ input::placeholder {
   background-color: rgba(7, 104, 4, 0.877);
 }
 .StartButton:hover {
-  background-color:black;
+  background-color:rgb(2, 7, 36);
 }
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
@@ -255,6 +255,15 @@ input[type="file"] {
 body{
   font-family: Bree serif;
 }
+.CompDashboard{
+  color: white;
+  width: 40%;
+  /* border-radius: 5px;  */
+  padding: 2%;
+  border: 1px solid rgba(221, 207, 207, 0.685); 
+  background-color: rgba(4, 7, 27, 0.932)
+}
+
 .CheckMateHead{
   color: white;
   font-weight: 650;
