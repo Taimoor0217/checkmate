@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import LINK from './link'
+import { Button } from 'react-bootstrap';
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -16,6 +17,10 @@ export default class Team extends Component{
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this)
         this.SetStatus = this.SetStatus.bind(this)
+        this.openScoreBoard = this.openScoreBoard.bind(this)
+    }
+    openScoreBoard(){
+        window.open(`http://localhost:3001/Scoreboard/${this.props.CompName}`)
     }
     componentDidMount(){
         axios.get(LINK+ 'TeamProblems', {
@@ -81,6 +86,7 @@ export default class Team extends Component{
                 <br></br>
                 {/* <h1>You are {this.props.Name}</h1> */}
             </center>
+            <Button className= "ScoreboardButton" variant="secondary" onClick = {this.openScoreBoard}> Scoreboard</Button>
             <div>
                 {this.state.Problems.map(p =>{
                     return(

@@ -5,6 +5,7 @@ import Team from './Team'
 import Admin from './Admin'
 import Judge from './Judge'
 import LandingPage from './LandingPage'
+import Scoreboard from './Scoreboard'
 
 import { ProtectedRoute } from "./ProtectedRoute";
 // import socketIOClient from 'socket.io-client'
@@ -62,7 +63,8 @@ class App extends Component {
           <Route path ="/ParticipantLogin" component = {ParticipantLogin}/>
           <Route exact path ="/getstarted" component = {HOME} />
           <Route exact path ="/" component = {LandingPage} />
-          <ProtectedRoute path ="/admin" component = {Admin} type ="Admin"/>
+          <Route path="/Scoreboard/:id" component={Scoreboard}/>
+          <ProtectedRoute exact path ="/admin" component = {Admin} type ="Admin"/>
           <ProtectedRoute exact path="/Judge" component={Judge}/>
           <ProtectedRoute exact path="/Team" component={Team}/>
         </Switch>

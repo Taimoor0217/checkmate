@@ -12,7 +12,7 @@ const uuidv4 = require('uuid/v4')
 const accounts = require('./accounts-generator.js')
 const spawn = require('./spawn')
 var cors = require('cors'); 
-
+SCOREBOARDS = []
 let USERS = '', COMPETITION = ''
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -32,7 +32,7 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
         USERS = mongoose.model('USER', schemas.User)
         COMPETITION = mongoose.model('COMPETITION', schemas.Competition)
         io.on('connection', socket => {
-            console.log('A CLIENT CONNECTED')
+            console.log('Connection')
             socket.on('message', (d) => {
                 console.log(socket.id, d)
             })
@@ -164,6 +164,29 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                 }
             })
         })
+        app.get('/ScoreBoard' , (req , res)=>{
+            // console.log("HERE")
+            let CompName = req.query.Competition
+            COMPETITION.findOne({Name : CompName}, (e , d)=>{
+                if(d){
+                    Teams = d.Teams
+                    // console.log(d.Teams)
+                    return_list = []
+                    for ( i = 0 ; i < Teams.length ; i++){
+                        obj = {
+                            TeamName : Teams[i].UserName,
+                            Solved : Teams[i].Solved.length,
+                            Score : Teams[i].Score
+                        }
+                        return_list.push(obj)
+                    }
+                    res.send({teams: return_list})
+                    res.end()
+                }else if(e || !d){
+                    res.end()
+                }
+            })
+        })
         app.post('/CompInitials', (req, res) => {
             // console.log('posted data')
             data = req.body
@@ -259,8 +282,6 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
             })
         });
         app.post('/ProbSolution', upload.single('SubmittedFile'), (req, res) => {
-            // console.log(req.body)
-            // console.log(req.file.path)
             COMPETITION.findOne({Name : req.body.Competition} , (e , d)=>{
                 //SUBMISSIONS
                 Problems = d.Problems
@@ -292,24 +313,51 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                     .then((D)=>{
                         // console.log(D)
                         if(D.result === "Correct"){
-                            COMPETITION.update(
-                                {Name:req.body.Competition , "Teams.UserName" : req.body.Team},
-                                {$push : {"Teams.$.Solved": req.body.Problem}}
-                            , (ERR , d)=>{
-                                if(ERR){
-                                    console.log(ERR)
+                            let signal = false
+                            COMPETITION.findOne({Name : req.body.Competition} , (error , data)=>{
+                                if(data){
+                                    i = 0
+                                    for (i = 0 ; i < data.Teams.length ; i++){
+                                        if(data.Teams[i].UserName === req.body.Team){
+                                            if(!data.Teams[i].Solved.includes(req.body.Problem)){
+                                                COMPETITION.update(
+                                                    {Name:req.body.Competition , "Teams.UserName" : req.body.Team},
+                                                    {$push : {"Teams.$.Solved": req.body.Problem}}
+                                                , (ERR , d)=>{
+                                                    if(ERR){
+                                                        console.log(ERR)
+                                                    }else{
+                                                        console.log('Submission Logged')
+                                                    }
+                                                })   
+                                                COMPETITION.update(
+                                                    {Name:req.body.Competition , "Teams.UserName" : req.body.Team},
+                                                    {$inc : {"Teams.$.Score": +10}}
+                                                , (ERR , d)=>{
+                                                    if(ERR){
+                                                        console.log(ERR)
+                                                    }else{
+                                                        console.log('Score Updated')
+                                                    }
+                                                })   
+
+                                            }
+                                            break;
+                                        }
+                                    }
                                 }else{
-                                    console.log('Submission Logged')
+                                    signal = true
                                 }
-                            })   
+                            })
+                        }else{
                             COMPETITION.update(
                                 {Name:req.body.Competition , "Teams.UserName" : req.body.Team},
-                                {$inc : {"Teams.$.Score": +10}}
+                                {$inc : {"Teams.$.Score": -0.5}}
                             , (ERR , d)=>{
                                 if(ERR){
                                     console.log(ERR)
                                 }else{
-                                    console.log('Score Updated')
+                                    console.log('Score Decreased')
                                 }
                             })   
                         }
@@ -317,6 +365,7 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                             result: D.result,
                             error : D.error
                         })
+                        io.sockets.emit("FetchNewScoreboard" , {})
                         res.end()
                     })
                     .catch((e)=>{

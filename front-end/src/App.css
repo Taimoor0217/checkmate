@@ -214,6 +214,20 @@ input::placeholder {
 .DownloadButton:hover {
   background-color: rgba(7, 104, 4, 0.877);
 }
+.ScoreboardButton{
+  border:1px solid white;
+  padding:2%; 
+  margin-bottom: 3%; 
+  margin-top:2%;
+  margin-left:78%;
+  font-size: 130%;
+  width: 20%;
+  font-family: Bree serif;
+  background-color:rgb(2, 7, 36);
+}
+.ScoreboardButton:hover {
+  background-color:rgb(3, 14, 80);
+}
 .StartButton:hover {
   background-color:rgb(2, 7, 36);
 }
@@ -275,21 +289,27 @@ body{
   padding-left: 80%; 
 }
 .UnSolved{
+  margin-left : 1px;
   color: rgba(0, 0, 255, 0.664)
 }
 .Solved{
+  margin-left : 1px;
   color: rgb(0, 128, 0)
 }
 .Pending{
+  margin-left : 1px;
   color: rgb(255, 208, 0)
 }
 .Incorrect{
+  margin-left : 1px;
   color: rgb(255, 0, 0)
 }
 .ERR{
+  margin-left : 1px;
   color: rgb(255, 0, 0)
 }
 .TLE{
+  margin-left : 1px;
   color: rgb(255, 0, 0)
 }
 .TeamProblem{
@@ -323,6 +343,9 @@ body{
 h2,h3,h1,h4,h5,h6{
   font-family: Bree serif;
 }
+h3{
+  font-size: 1.6em
+}
 .LogInPage{
   padding-top: 8%; 
   width : 70%;
@@ -335,6 +358,18 @@ h2,h3,h1,h4,h5,h6{
   background: url('./images/mac-book.jpg');
   background-size: cover;
   background-repeat: no-repeat;
+}
+.ScoreBoard{
+  padding: 8%;
+  overflow : scroll
+}
+th{
+  text-align: center;
+  font-size: 1.7em;
+}
+td{
+  text-align: center;
+  font-size: 1.2em;
 }
 .ProblemSubmit{
   margin-left: 3%
