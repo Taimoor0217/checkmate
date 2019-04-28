@@ -337,6 +337,7 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                                                     if(ERR){
                                                         console.log(ERR)
                                                     }else{
+                                                        io.sockets.emit("FetchNewScoreboard" , {})
                                                         console.log('Score Updated')
                                                     }
                                                 })   
@@ -357,6 +358,7 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                                 if(ERR){
                                     console.log(ERR)
                                 }else{
+                                    io.sockets.emit("FetchNewScoreboard" , {})
                                     console.log('Score Decreased')
                                 }
                             })   
@@ -365,7 +367,6 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                             result: D.result,
                             error : D.error
                         })
-                        io.sockets.emit("FetchNewScoreboard" , {})
                         res.end()
                     })
                     .catch((e)=>{
