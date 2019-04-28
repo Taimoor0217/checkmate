@@ -47,11 +47,11 @@ export default class Admin extends Component{
     DownloadPasswords(){
         axios.get(LINK + 'getPasswords' , {
             params:{
-                "Competition" : this.state.CompName
+                Competition : this.state.CompName
             }
         })
         .then((response) => {
-            FileDownload(response.data, 'passwords.csv');
+            FileDownload(response.data, 'Passwords.csv');
        })
        .catch(err=>{
            console.log(err)
@@ -63,7 +63,7 @@ export default class Admin extends Component{
     componentDidMount(){
           axios.get(LINK + 'checkcomp' , {
               params:{
-                  "Name" : this.state.UserName
+                  Name : this.state.UserName
               }
           })
           .then((d)=>{

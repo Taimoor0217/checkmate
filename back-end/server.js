@@ -11,6 +11,7 @@ const io = SOCKIO(server)
 const uuidv4 = require('uuid/v4')
 const accounts = require('./accounts-generator.js')
 const spawn = require('./spawn')
+const FileMaker = require('./FileMake')
 var cors = require('cors'); 
 SCOREBOARDS = []
 let USERS = '', COMPETITION = ''
@@ -115,7 +116,6 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                     var Problems = d.Problems
                     var RESPONSE = []
                     var Team = d.Teams.find(function(e){return (e.UserName == data.TeamName)})
-                    // var solved = ['KINGSMAN' , 'WHO TOOK WILL']
                     var solved = Team.Solved
                     for(i = 0 ; i < Problems.length ; i++ ){
                         var v = "UnSolved"
@@ -127,7 +127,6 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                             Status: v
                         })
                     }
-                    // console.log(RESPONSE)
                     res.send(RESPONSE)
                     res.end()
                 }
@@ -188,8 +187,44 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
             })
         })
         app.get('/getPasswords' , (req , res)=>{
-            console.log("Pasword Request...")
-            res.download('./passwords.csv')
+            COMPETITION.findOne({Name : req.query.Competition} , (e , d)=>{
+                if(!e){
+                    if(d){
+                        Judges = d.Judges
+                        Teams = d.Teams
+                        Judges_Array = []
+                        Teams_Array = []
+                        for ( i = 0 ; i < Judges.length ; i++){
+                            Judges_Array.push({
+                                UserName : Judges[i].UserName,
+                                Password : Judges[i].Password
+                            })
+                        }  
+                        for ( i = 0 ; i < Teams.length ; i++){
+                            Teams_Array.push({
+                                UserName : Teams[i].UserName,
+                                Password : Teams[i].Password
+                            })
+                        } 
+                        const obj = {
+                            Teams : Teams_Array,
+                            Judges : Judges_Array
+                        }
+                        FileMaker.MakeCSV(obj)
+                        .then(d=>{
+                            res.download('./Passwords.csv' , (e , d)=>{
+                                res.end()
+                            })
+                        })
+                        .catch(e =>{
+                            console.log(e)
+                        })
+                    }
+                }else{
+                    console.log(e)
+                    res.end()
+                }
+            })
         })
         app.post('/CompInitials', (req, res) => {
             // console.log('posted data')
@@ -357,7 +392,7 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                         }else{
                             COMPETITION.update(
                                 {Name:req.body.Competition , "Teams.UserName" : req.body.Team},
-                                {$inc : {"Teams.$.Score": -0.5}}
+                                {$inc : {"Teams.$.Score": -0.2}}
                             , (ERR , d)=>{
                                 if(ERR){
                                     console.log(ERR)
