@@ -20,7 +20,7 @@ export default class Team extends Component{
         this.openScoreBoard = this.openScoreBoard.bind(this)
     }
     openScoreBoard(){
-        window.open(`http://localhost:3001/Scoreboard/${this.props.CompName}`)
+        window.open(`http://10.130.60.5:3001/Scoreboard/${this.props.CompName}`)
     }
     componentDidMount(){
         axios.get(LINK+ 'TeamProblems', {

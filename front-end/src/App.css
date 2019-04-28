@@ -56,10 +56,25 @@ li{
   text-align: center;
   margin: 1%;
   border: 2px solid grey;
-  border-radius: 8px; 
+  border-radius: 8px;
+  text-overflow: ellipsis; 
   background-color:white;
   /* border: 1px solid grey; */
 }
+li:hover{
+  text-decoration: line-through;
+}
+.dashboardSubmit{
+  color: white;
+  padding: 3% 3%;
+  margin-top: 3px;
+  width: 100%;
+  background-color:  rgba(0, 0, 0, 0.897);
+  border-radius: 10px;
+  font-family: Bree serif;
+  font-size: 2 em;
+}
+
 .scrollable{
   margin-top : 5%;
   width: 100%;
@@ -277,7 +292,16 @@ body{
   border: 1px solid rgba(221, 207, 207, 0.685); 
   background-color: rgba(4, 7, 27, 0.932)
 }
-
+.ScoreBoardHeader{
+  color: white;
+  width: 30%;
+  margin-left: 35%;
+  margin-top: 3%;
+  border-radius: 5px; 
+  padding: 2%;
+  border: 1px solid rgba(221, 207, 207, 0.685); 
+  background-color: rgba(4, 7, 27, 0.932)
+}
 .CheckMateHead{
   color: white;
   font-weight: 650;
@@ -361,6 +385,7 @@ h3{
 }
 .ScoreBoard{
   padding: 8%;
+  padding-top: 3%; 
   overflow : scroll
 }
 th{

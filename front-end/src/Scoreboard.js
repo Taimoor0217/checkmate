@@ -44,7 +44,12 @@ export default class Scoreboard extends Component{
     }
     render(){
         return(
+            <div>
+            <div className = "ScoreBoardHeader">
+                <center><h1>{this.props.match.params.id} LeaderBoard</h1></center>
+            </div>
             <div className = "ScoreBoard">
+                
                 <Paper>
                     <Table responsive="sm">
                         <tbody>
@@ -71,6 +76,7 @@ export default class Scoreboard extends Component{
                         </tbody>
                     </Table>
                 </Paper>
+            </div>
             </div>
         )
     }

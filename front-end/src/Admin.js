@@ -8,6 +8,8 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import LINK from './link'
+const FileDownload = require('js-file-download')
+// import {fileDownload} from 'js-file-download'
 // const LINK = 'http://10.130.60.5:8300/'
 export default class Admin extends Component{
     constructor(){
@@ -34,9 +36,26 @@ export default class Admin extends Component{
         }
         this.componentWillMount = this.componentWillMount.bind(this)
         this.componentDidMount = this.componentDidMount.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
+        this.removeTeam = this.removeTeam.bind(this)
+        this.removeJudge = this.removeJudge.bind(this)
+        this.removeProblem = this.removeProblem.bind(this)
+        this.DownloadPasswords = this.DownloadPasswords.bind(this)
 
+    }
+    DownloadPasswords(){
+        axios.get(LINK + 'getPasswords' , {
+            params:{
+                "Competition" : this.state.CompName
+            }
+        })
+        .then((response) => {
+            FileDownload(response.data, 'passwords.csv');
+       })
+       .catch(err=>{
+           console.log(err)
+       })
     }
     componentWillMount(){
         this.setState({UserName:this.props.UserName})
@@ -56,6 +75,61 @@ export default class Admin extends Component{
           .catch(err=>{
               console.log(err)
           })
+    }
+    removeTeam(event){
+        const name = event.target.id
+        axios.post( LINK + 'removeTeam' , {
+            Competition : this.state.CompName,
+            UserName : name
+        })
+        .then(d =>{
+            if(d.data){
+                var Teams = this.state.Teams
+                var New_Teams = Teams.filter(el => el.UserName !== name)
+                this.setState({Teams : New_Teams})
+            }
+        })
+        .catch(err =>{
+            console.log(err)
+        })
+    }
+    removeJudge(event){
+        const name = event.target.id
+        axios.post( LINK + 'removeJudge' , {
+            Competition : this.state.CompName,
+            UserName : name
+        })
+        .then(d =>{
+            if(d.data){
+                var Judges = this.state.Judges
+                var New_Judges = Judges.filter(el => el.UserName !== name)
+                this.setState({Judges : New_Judges})
+            }
+        })
+        .catch(err =>{
+            console.log(err)
+        })
+        
+        // console.log(event.target.id)
+    }
+    removeProblem(event){
+        const name = event.target.id
+        axios.post( LINK + 'removeProblem' , {
+            Competition : this.state.CompName,
+            ProblemName : name
+        })
+        .then(d =>{
+            if(d.data){
+                var Problems = this.state.Problems
+                var New_Problems = Problems.filter(el => el.ProblemName !== name)
+                this.setState({Problems : New_Problems})
+            }
+        })
+        .catch(err =>{
+            console.log(err)
+        })
+        
+        // console.log(event.target.id)
     }
     handleSubmit(event){
         event.preventDefault()
@@ -209,7 +283,7 @@ export default class Admin extends Component{
                         <center> <div className = "CompDashboard"><h2> Welcome to {this.state.CompName} Dashboard</h2></div></center>
                         <div>
                             <br></br>
-                            <Button className= "DownloadButton" variant="secondary" size="" href="#">
+                            <Button onClick = {this.DownloadPasswords} className= "DownloadButton" variant="secondary" size="" href="#">
                             Download Passwords
                             </Button>
                             <Button className= "StartButton" variant="secondary" size="" href="#">
@@ -239,7 +313,7 @@ export default class Admin extends Component{
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
                                     <div className = "scrollable">
-                                        {this.state.Judges.map(j=> <li id={j.UserName} className = "listElem"> {j.UserName } </li>)}
+                                        {this.state.Judges.map(j=> <li onClick = {this.removeJudge} id={j.UserName} className = "listElem"> {j.UserName } </li>)}
                                     </div>
                                 </ExpansionPanelDetails>
                             </ExpansionPanel>
@@ -257,7 +331,7 @@ export default class Admin extends Component{
                                         <input className = "dashboard-form" Name = "dbTeamName" placeholder ="Team Name" type = 'text' onChange={this.handleChange} required= "true"></input>
                                         <input className = "dashboard-form" Name = "dbTeamPassword" placeholder ="Password" type = 'text' onChange={this.handleChange} required= "true" ></input>
                                         <input className = "dashboard-form" Name = "dbTeamScore" placeholder ="Initial Score" type = 'text' onChange={this.handleChange} required= "true"></input>
-                                        <input className = "dashboard-formSubmit" type = 'Submit' value = "Create"></input>
+                                        <input className = "dashboardSubmit" type = 'Submit' value = "Create"></input>
                                     </form>
                                 </ExpansionPanelDetails>
                             </ExpansionPanel>
@@ -269,7 +343,7 @@ export default class Admin extends Component{
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails >
                                 <div className = "scrollable">
-                                        {this.state.Teams.map(T=> <li id ={T.UserName} className = "listElem"> {T.UserName } </li>)}
+                                        {this.state.Teams.map(T=> <li onClick = {this.removeTeam} id ={T.UserName} className = "listElem"> {T.UserName } </li>)}
                                 </div>
                                 </ExpansionPanelDetails>
                             </ExpansionPanel>
@@ -301,7 +375,7 @@ export default class Admin extends Component{
                                     </ExpansionPanelSummary>
                                     <ExpansionPanelDetails>
                                         <div className = "scrollable">
-                                            {this.state.Problems.map(P => <li id ={P.ProblemName} className = "listElem"> {P.ProblemName } </li>)}
+                                            {this.state.Problems.map(P => <li onClick = {this.removeProblem} id ={P.ProblemName} className = "listElem"> {P.ProblemName } </li>)}
                                         </div>
                                     </ExpansionPanelDetails>
                                 </ExpansionPanel>

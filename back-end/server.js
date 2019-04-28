@@ -187,6 +187,10 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                 }
             })
         })
+        app.get('/getPasswords' , (req , res)=>{
+            console.log("Pasword Request...")
+            res.download('./passwords.csv')
+        })
         app.post('/CompInitials', (req, res) => {
             // console.log('posted data')
             data = req.body
@@ -379,6 +383,48 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                 }
             })
         });
-        server.listen(8400, () => console.log('SERVER Listning On THE PORT'))
+        app.post('/removeTeam' , function(req , res){
+            COMPETITION.updateOne({Name : req.body.Competition} , 
+                {$pull: {Teams: {UserName: req.body.UserName}}} , function(ERR , data){
+                    if(!ERR){
+                        console.log("A team Removed from DB")
+                        res.send({message : "ok"})
+                        res.end()
+                    }else{
+                        console.log(ERR)
+                        res.send({})
+                        res.end()
+                    }
+                })
+        })
+        app.post('/removeJudge' , function(req , res){
+            COMPETITION.updateOne({Name : req.body.Competition} , 
+                {$pull: {Judges: {UserName: req.body.UserName}}} , function(ERR , data){
+                    if(!ERR){
+                        console.log("A Judge Removed from DB")
+                        res.send({message : "ok"})
+                        res.end()
+                    }else{
+                        console.log(ERR)
+                        res.send({})
+                        res.end()
+                    }
+                })
+        })
+        app.post('/removeProblem' , function(req , res){
+            COMPETITION.updateOne({Name : req.body.Competition} , 
+                {$pull: {Problems: {ProblemName: req.body.ProblemName}}} , function(ERR , data){
+                    if(!ERR){
+                        console.log("A Problem Removed from DB")
+                        res.send({message : "ok"})
+                        res.end()
+                    }else{
+                        console.log(ERR)
+                        res.send({})
+                        res.end()
+                    }
+                })
+        })
+        server.listen(8400, '0.0.0.0', () => console.log('SERVER Listning On THE PORT'))
     })
     .catch((err) => console.log(err))
