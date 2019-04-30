@@ -33,7 +33,10 @@ function evalPython(subObj){
     
     fs.readFile(subObj.Output_File_Path, (_err, buf) => {
       orignalOut = buf.toString();
-      if (orignalOut[orignalOut.length-1]!="\r\n") orignalOut += "\r\n"
+      // if (orignalOut[orignalOut.length-1]!="\r\n") orignalOut += "\r\n"
+
+      if (orignalOut[orignalOut.length-1]=="\n") orignalOut = orignalOut.slice(0,orignalOut.length-1)
+
       //input
       fs.readFile(subObj.Input_File_Path, (_err, buf) => {
         process.stdin.write(buf.toString())
@@ -48,7 +51,7 @@ function evalPython(subObj){
     
     //if error
     process.stderr.on('data', (data) => {
-      let err = data.toString().split("\r\n")
+      let err = data.toString().split("\n")
       subObj.error = err[err.length - 2]
       subObj.points = 0
       // console.log(subObj);
@@ -62,13 +65,13 @@ function evalPython(subObj){
       
       //only if no error
       if(code===0){
-        userOut = userOut.split("\r\n")
-        orignalOut = orignalOut.split("\r\n")
+        userOut = userOut.split("\n")
+        orignalOut = orignalOut.split("\n")
         
         //not cheking last line as it is an empty line
-        for (let index = 0; index < orignalOut.length-1; index++) {
+        for (let index = 0; index < orignalOut.length; index++) {
           
-          u = (index>userOut.length-1) ? 0 : userOut[index];
+          u = userOut[index];
           o = orignalOut[index];
           
           (u === o) ? compare.push ([u,o,1]) : compare.push ([u,o,0])
