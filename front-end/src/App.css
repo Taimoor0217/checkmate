@@ -61,6 +61,13 @@ li{
   background-color:white;
   /* border: 1px solid grey; */
 }
+#submissionstatus{
+  position: absolute;
+  margin-left: 59% 
+}
+.UnChecked{
+  color:rgba(255, 0, 0, 0.815)
+}
 li:hover{
   text-decoration: line-through;
 }

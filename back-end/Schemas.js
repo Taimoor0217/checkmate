@@ -29,11 +29,12 @@ const PROBLEM_SCHEMA = new mongoose.Schema({
 })
 const SUBMISSION_SCHEMA = new mongoose.Schema({
     CompetitionName: String,
+    file_path : String,
     ProblemName: String,
     SubmissionID: String,
     TeamName: String,
     TimeStamp: String,
-    Checked: Boolean,
+    Status: String,
     Correct: Boolean
 })
 const COMPETITION_SCHEMA = new mongoose.Schema({

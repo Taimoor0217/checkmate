@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import auth from "./Auth";
+import {Spinner, Fade } from 'reactstrap';
 import { Container } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,6 +13,8 @@ export default class LogIn extends Component{
     constructor(props){
         super(props)
         this.state = {
+            fade : true,
+            fadeload : false,
             error : '',
             UserName : '',
             Password : '',
@@ -46,6 +49,10 @@ export default class LogIn extends Component{
     }
     handleSubmit(e){
         e.preventDefault()
+            this.setState({ 
+                fade : false,
+                fadeload : true
+            })
             auth.loginAdmin(this.state.UserName , this.state.Password , ()=>{
                 toast('LogIn Successful!', {
                     className: css({
@@ -88,19 +95,21 @@ export default class LogIn extends Component{
                     draggable
                     pauseOnHover
                 />
-                <Container  className = "AdminForm">
-                    <center><h3>{this.state.error}</h3></center>
-                    <center><h1>Please Login To Continue</h1></center>
-                    <div className = "LogInPage">
-                        <form Name ="LogIn" id ="LogIn" onSubmit = {this.handleSubmit}>
-                            <input className ="initialForm"  Name = "UserName" placeholder ="UserName" type = 'text' onChange={this.handleChange} required= "true"></input>
-                            <input className ="initialForm" Name = "Password" placeholder ="Password" type = 'password' onChange={this.handleChange} required= "true" ></input>
-                            <br></br>
-                            <input className ="initialFormSubmit" type = 'Submit' value = "LogIn"></input>
-                            <h6>Do not have an Account? <a href="/SignUp">SignUp</a></h6>
-                        </form>
-                    </div>
-                </Container>
+                <Fade in={this.state.fade } tag="h5" className="mt-3">
+                    <Container  className = "AdminForm">
+                        <center><h3>{this.state.error}</h3></center>
+                        <center><h1>Please Login To Continue</h1></center>
+                        <div className = "LogInPage">
+                            <form Name ="LogIn" id ="LogIn" onSubmit = {this.handleSubmit}>
+                                <input className ="initialForm"  Name = "UserName" placeholder ="UserName" type = 'text' onChange={this.handleChange} required= "true"></input>
+                                <input className ="initialForm" Name = "Password" placeholder ="Password" type = 'password' onChange={this.handleChange} required= "true" ></input>
+                                <br></br>
+                                <input className ="initialFormSubmit" type = 'Submit' value = "LogIn"></input>
+                                <h6>Do not have an Account? <a href="/SignUp">SignUp</a></h6>
+                            </form>
+                        </div>
+                    </Container>
+                </Fade>
                 </div>
           );
     }
