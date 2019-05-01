@@ -68,6 +68,11 @@ li{
 .UnChecked{
   color:rgba(255, 0, 0, 0.815)
 }
+.JudgeProblem{
+  padding: 8%;
+  padding-top: 0.5%; 
+  padding-bottom: 1%; 
+}
 li:hover{
   text-decoration: line-through;
 }
@@ -324,6 +329,10 @@ body{
   color: rgba(0, 0, 255, 0.664)
 }
 .Solved{
+  margin-left : 1px;
+  color: rgb(0, 128, 0)
+}
+.Correct{
   margin-left : 1px;
   color: rgb(0, 128, 0)
 }

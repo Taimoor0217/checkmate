@@ -32,14 +32,22 @@ function evalPython(subObj){
     let userOut = ""
     
     fs.readFile(subObj.Output_File_Path, (_err, buf) => {
-      orignalOut = buf.toString();
-      // if (orignalOut[orignalOut.length-1]!="\r\n") orignalOut += "\r\n"
-      if (orignalOut[orignalOut.length-1]=="\n") orignalOut = orignalOut.slice(0,orignalOut.length-1)
+      if(_err){
+        console.log(_err)
+      }else{
+        orignalOut = buf.toString();
+        // if (orignalOut[orignalOut.length-1]!="\r\n") orignalOut += "\r\n"
+        if (orignalOut[orignalOut.length-1]=="\n") orignalOut = orignalOut.slice(0,orignalOut.length-1)
+      }
 
       //input
       fs.readFile(subObj.Input_File_Path, (_err, buf) => {
-        process.stdin.write(buf.toString())
-        process.stdin.end()
+        if(_err){
+          console.log(_err)
+        }else{
+          process.stdin.write(buf.toString())
+          process.stdin.end()
+        }
       });
     });
     

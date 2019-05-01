@@ -15,6 +15,10 @@ export default class Judge extends Component{
             Submissions : []
         }
         this.fetchSubmissions = this.fetchSubmissions.bind(this)
+        this.SetStatus = this.SetStatus.bind(this)
+        this.Compare = this.Compare.bind(this)
+        this.Accept = this.Accept.bind(this)
+        this.Reject = this.Reject.bind(this)
     }
     fetchSubmissions(){
         axios.get(LINK + 'getSubmissions' , {
@@ -23,17 +27,69 @@ export default class Judge extends Component{
             }
         })
         .then(d=>{
-            this.setState({Submissions : d.data })
+            // console.log(d.data)
+            this.setState({Submissions : d.data})
         })
+        .catch(e => console.log(e))
     }
     componentWillMount(){
         this.fetchSubmissions()
     }
     componentDidMount(){
         const socket = io(LINK)
-        socket.on('FetchNewSubmissions', d =>{
-            this.fetchSubmissions()
+        socket.on('NewSubmission', d =>{
+            let subs = this.state.Submissions
+            subs.push(d)
+            this.setState({Submissions: subs})
+            // console.log(d)
         })
+    }
+    SetStatus(target, status) {
+        var temp = this.state.Submissions
+        for( var i = 0 ; i < temp.length ; i++){
+            if(temp[i].SubmissionID === target){
+                temp[i].Status = status
+            }
+        }
+        this.setState({Submissions:temp})
+    }
+    RunRequest(e){
+        e.preventDefault()
+        const Id = e.target.id
+        console.log(Id)
+        this.SetStatus(Id , "Pending")
+        axios.get(LINK + 'runSubmission' , {
+            params :{
+                Competition : this.props.CompName,
+                SubmissionID : Id
+            }
+        })
+        .then(d=>{
+            // console.log(d.data)
+            if(d.data.error === null || d.data.error === ''){
+                if(d.data.result === "Correct"){
+                    this.SetStatus(Id , "Correct")
+                }else{
+                    this.SetStatus(Id , "Incorrect")
+                }
+            }else{
+                if(d.data.error === "Time Limit Exceeded"){
+                    this.SetStatus(Id , "TLE")
+                }else{
+                    this.SetStatus(Id , "ERR")
+                }
+            }
+        })
+        .catch( e => console.log(e))
+    }
+    Accept(e){
+        e.preventDefault()
+        const ID = e.target.id
+        axios.post('/acceptSubmission' , {
+            Competition : this.props.CompName,
+            SubmissionID : ID
+        })
+        .then(d =>{})
     }
     render(){
         return( 
@@ -46,7 +102,7 @@ export default class Judge extends Component{
             <div>
                 {this.state.Submissions.map(s =>{
                     return(
-                        <div className = "TeamProblem">
+                        <div className = "JudgeProblem">
                             <ExpansionPanel>
                             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                             <div className = "ProblemStatement" ><h3>{s.ProblemName}</h3></div>
@@ -57,10 +113,10 @@ export default class Judge extends Component{
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                             <ButtonToolbar>
-                                <Button variant="primary">Run Solution</Button>
-                                <Button variant="warning">Compare Solution</Button>
-                                <Button variant="success">Accept Solution</Button>
-                                <Button variant="danger">Reject Solution</Button>
+                                <Button id = {s.SubmissionID} onClick = {this.RunRequest} variant="primary">Run Solution</Button>
+                                <Button id = {s.SubmissionID} onClick = {this.Compare} variant="warning">Compare Solution</Button>
+                                <Button id = {s.SubmissionID} onClick = {this.Accept} variant="success">Accept Solution</Button>
+                                <Button id = {s.SubmissionID} onClick = {this.Reject} variant="danger">Reject Solution</Button>
                             </ButtonToolbar>
                             </ExpansionPanelDetails>
                             </ExpansionPanel>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import auth from "./Auth";
-import {Spinner, Fade } from 'reactstrap';
+import {Fade } from 'reactstrap';
 import { Container } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

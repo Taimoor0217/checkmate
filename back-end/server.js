@@ -328,14 +328,16 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
         })
         app.get('/getSubmissions' , (req , res)=>{
             // console.log('REUQQ')
+            // console.log(req.query)
             COMPETITION.findOne({Name : req.query.Competition} , (e , d)=>{
                 if(e || !d){
+                    console.log('Empty')
                     res.end()
                 }else{
                     Submissions = []
                     // console.log(d.Submissions)
                     for ( i = 0 ; i < d.Submissions.length ; i++){
-                        if(d.Submissions[i].Status === "Unchecked"){
+                        if(d.Submissions[i].Status === "UnChecked"){
                             Submissions.push({
                                 ProblemName : d.Submissions[i].ProblemName,
                                 TeamName : d.Submissions[i].TeamName,
@@ -347,6 +349,66 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                     // console.log(Submissions)
                     res.send(Submissions)
                     res.end()
+                }
+            })
+        })
+        app.get('/runSubmission' , (req , res)=>{
+            COMPETITION.findOne({Name : req.query.Competition} , (e , d)=>{
+                if(e || !d){
+                    res.end()
+                }else{
+                    Submissions = d.Submissions
+                    target = ''
+                    for( i = 0 ; i < d.Submissions.length ; i++){
+                        if(d.Submissions[i].SubmissionID === req.query.SubmissionID){
+                            target =d.Submissions[i]
+                            break
+                        }
+                    }
+                    if(target === ''){
+                        res.end()
+                    }else{
+                        Problems = d.Problems
+                        targetProblem = ''
+                        for(i = 0 ; i < Problems.length ; i++){
+                            if(Problems[i].ProblemName === target.ProblemName){
+                                targetProblem = Problems[i]
+                            }
+                        }
+                        if(targetProblem === ''){
+                            res.send({
+                                result: "Incorrect",
+                                error : null
+                            })
+                            res.end()
+                        }
+                        // console.log(targetProblem)
+                        const SObj ={
+                            Code_File_Path: `./${target.file_path}`,
+                            Input_File_Path : `./${targetProblem.Input_Path}`,
+                            Output_File_Path : `./${targetProblem.Output_Path}`,
+                            lang: 'python',
+                            checked: 0,
+                            result : 'Incorrect',
+                            output: null,
+                            error: null
+                        }
+                        // console.log(SObj)
+                        spawn.evalPython(SObj)
+                        .then((D)=>{
+                            res.send({
+                                result : D.result,
+                                error : D.error
+                            })
+                            res.end()
+                        })
+                        .catch(e =>{
+                            console.log(e)
+                            res.end()
+                        })
+
+                    }
+
                 }
             })
         })
@@ -452,7 +514,7 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                     ProblemName : req.body.Problem,
                     TeamName : req.body.Team,
                     TimeStamp : Date.now(),
-                    Status : "Unchecked",
+                    Status : "UnChecked",
                     SubmissionID : uuidv4(),
                     Correct : false
                 }
@@ -462,7 +524,7 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                             console.log(e)
                         }else{
                             console.log(`A Submission to ${req.body.Competition}`)
-                            io.sockets.emit("FetchNewSubmissions" , {})
+                            io.sockets.emit("NewSubmission" , sub)
                         }
                 })
             }else{
