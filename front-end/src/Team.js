@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import LINK from './link'
+import io from 'socket.io-client'
 import { Button } from 'react-bootstrap';
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -20,7 +21,7 @@ export default class Team extends Component{
         this.openScoreBoard = this.openScoreBoard.bind(this)
     }
     openScoreBoard(){
-        window.open(`http://10.130.60.5:3001/Scoreboard/${this.props.CompName}`)
+        window.open(`http://127.0.0.1:3000/Scoreboard/${this.props.CompName}`)
     }
     componentDidMount(){
         axios.get(LINK+ 'TeamProblems', {
@@ -35,6 +36,12 @@ export default class Team extends Component{
         })
         .catch(e=>{
             console.log(e)
+        })
+        const socket = io(LINK)
+        socket.on('UpdateStatus', d =>{
+            if(d.Team === this.props.Name && d.Competition === this.props.CompName){
+                this.SetStatus(d.Problem , d.status)
+            }
         })
     }
     handleChange(e){

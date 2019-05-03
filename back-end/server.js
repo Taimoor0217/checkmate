@@ -81,7 +81,7 @@ function VerifySubmission_Automatically(req , res){
                                         })   
                                         COMPETITION.update(
                                             {Name:req.body.Competition , "Teams.UserName" : req.body.Team},
-                                            {$inc : {"Teams.$.Score": +10}}
+                                            {$inc : {"Teams.$.Score": +20}}
                                         , (ERR , d)=>{
                                             if(ERR){
                                                 console.log(ERR)
@@ -102,7 +102,7 @@ function VerifySubmission_Automatically(req , res){
                 }else{
                     COMPETITION.update(
                         {Name:req.body.Competition , "Teams.UserName" : req.body.Team},
-                        {$inc : {"Teams.$.Score": -0.2}}
+                        {$inc : {"Teams.$.Score": -1}}
                     , (ERR , d)=>{
                         if(ERR){
                             console.log(ERR)
@@ -342,7 +342,9 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                                 ProblemName : d.Submissions[i].ProblemName,
                                 TeamName : d.Submissions[i].TeamName,
                                 SubmissionID : d.Submissions[i].SubmissionID,
-                                Status : "UnChecked"
+                                Status : "UnChecked",
+                                Output : [],
+                                showmodal :false
                             })
                         }
                     }
@@ -390,15 +392,17 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                             lang: 'python',
                             checked: 0,
                             result : 'Incorrect',
-                            output: null,
+                            output: [],
                             error: null
                         }
                         // console.log(SObj)
                         spawn.evalPython(SObj)
                         .then((D)=>{
+                            // console.log(D)
                             res.send({
                                 result : D.result,
-                                error : D.error
+                                error : D.error,
+                                Output : D.output
                             })
                             res.end()
                         })
@@ -530,7 +534,131 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
             }else{
                 VerifySubmission_Automatically(req , res)
             }
-        });
+        })
+        app.post('/AcceptSubmission' , function(req , res){
+            target = ''    
+            COMPETITION.findOne({Name : req.body.Competition} , (err , d) =>{
+                    if(err || !d){
+                        res.end()
+                        io.sockets.emit('RemoveSubmission' , req.body.SubmissionID)
+                    }else{
+                        for( i = 0 ; i < d.Submissions.length ; i++){
+                            if(d.Submissions[i].SubmissionID === req.body.SubmissionID){
+                                target =d.Submissions[i]
+                                break
+                            }
+                        }
+                        if(target === ''){
+                            res.end()
+                            io.sockets.emit('RemoveSubmission' , req.body.SubmissionID)
+                        }else{
+                            COMPETITION.findOne({Name : req.body.Competition} , (error , data)=>{
+                                if(data){
+                                    i = 0
+                                    for (i = 0 ; i < data.Teams.length ; i++){
+                                        if(data.Teams[i].UserName === target.TeamName){
+                                            if(!data.Teams[i].Solved.includes(target.ProblemName)){
+                                                COMPETITION.update(
+                                                    {Name:req.body.Competition , "Teams.UserName" : target.TeamName},
+                                                    {$push : {"Teams.$.Solved": target.ProblemName}}
+                                                , (ERR , d)=>{
+                                                    if(ERR){
+                                                        console.log(ERR)
+                                                    }else{
+                                                        console.log('Submission Logged')
+                                                    }
+                                                })   
+                                                COMPETITION.update(
+                                                    {Name:req.body.Competition , "Teams.UserName" : target.TeamName},
+                                                    {$inc : {"Teams.$.Score": +20}}
+                                                , (ERR , d)=>{
+                                                    if(ERR){
+                                                        console.log(ERR)
+                                                    }else{
+                                                        io.sockets.emit("FetchNewScoreboard" , {})
+                                                        console.log('Score Updated')
+                                                    }
+                                                })   
+                
+                                            }
+                                            break;
+                                        }
+                                    }
+                                }
+                            })
+                            COMPETITION.update(
+                                {Name:req.body.Competition , "Submissions.SubmissionID" : req.body.SubmissionID},
+                                {$set : {"Submissions.$.Status": "Checked"}}
+                            , (e , d)=>{
+                                if(e){
+                                    console.log(e)
+                                }else{
+                                    console.log("A submission approved..")
+                                }
+                            })
+                            io.sockets.emit('UpdateStatus' , {
+                                Team : target.TeamName,
+                                Competition : req.body.Competition,
+                                Problem : target.ProblemName,
+                                status : "Solved"
+                            })
+                            io.sockets.emit('RemoveSubmission' , req.body.SubmissionID)
+                            // console.log(target)
+                        }
+
+                    }
+            })
+
+        })
+        app.post('/rejectSubmission' , function(req , res){
+            target = ''    
+            COMPETITION.findOne({Name : req.body.Competition} , (err , d) =>{
+                if(err || !d){
+                    res.end()
+                    io.sockets.emit('RemoveSubmission' , req.body.SubmissionID)
+                }else{
+                    for( i = 0 ; i < d.Submissions.length ; i++){
+                        if(d.Submissions[i].SubmissionID === req.body.SubmissionID){
+                            target =d.Submissions[i]
+                            break
+                        }
+                    }
+                    if(target === ''){
+                        res.end()
+                        io.sockets.emit('RemoveSubmission' , req.body.SubmissionID)
+                    }else{
+                        COMPETITION.update(
+                            {Name:req.body.Competition , "Teams.UserName" : target.TeamName},
+                            {$inc : {"Teams.$.Score": -1}}
+                        , (ERR , d)=>{
+                            if(ERR){
+                                console.log(ERR)
+                            }else{
+                                io.sockets.emit("FetchNewScoreboard" , {})
+                                console.log('Score Updated')
+                            }
+                        }) 
+                        COMPETITION.update(
+                            {Name:req.body.Competition , "Submissions.SubmissionID" : req.body.SubmissionID},
+                            {$set : {"Submissions.$.Status": "Checked"}}
+                        , (e , d)=>{
+                            if(e){
+                                console.log(e)
+                            }else{
+                                console.log("A submission Rejected..")
+                            }
+                        })
+                        io.sockets.emit('UpdateStatus' , {
+                            Team : target.TeamName,
+                            Competition : req.body.Competition,
+                            Problem : target.ProblemName,
+                            status : "Incorrect"
+                        })
+                        io.sockets.emit('RemoveSubmission' , req.body.SubmissionID)
+                    }
+                }
+            })
+        })
         app.post('/removeTeam' , function(req , res){
             COMPETITION.updateOne({Name : req.body.Competition} , 
                 {$pull: {Teams: {UserName: req.body.UserName}}} , function(ERR , data){
@@ -573,6 +701,6 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                     }
                 })
         })
-        server.listen(8400, '0.0.0.0', () => console.log('SERVER Listning On THE PORT'))
+        server.listen(8500, '0.0.0.0', () => console.log('SERVER Listning On THE PORT'))
     })
     .catch((err) => console.log(err))

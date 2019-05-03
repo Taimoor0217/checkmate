@@ -61,6 +61,31 @@ li{
   background-color:white;
   /* border: 1px solid grey; */
 }
+.Matched{
+  background: rgb(135, 211, 21);
+  border: 1px solid black
+}
+.NotMatched{
+  background: rgb(211, 43, 21);
+  border: 1px solid black
+}
+.Output{
+  text-align: center;
+  float: left;
+  width: 48%
+}
+.Expected{
+  text-align: center;
+  float: left;
+  width: 48%
+}
+.CompareHeader{
+  width: 48%;
+  float: left;
+  /* border-radius: 8px;  */
+  text-align: center;
+  border: 1px solid black
+}
 #submissionstatus{
   position: absolute;
   margin-left: 59% 

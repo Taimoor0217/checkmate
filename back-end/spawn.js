@@ -87,7 +87,7 @@ function evalPython(subObj){
         //if output is not correct, points becomes zero
         compare.forEach(element => {
           if (element[2]===0){
-            subObj.points = "Incorrect";
+            subObj.result = "Incorrect";
             return
           } else {
             subObj.result = "Correct"
