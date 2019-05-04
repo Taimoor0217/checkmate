@@ -11,6 +11,14 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+.AutoJudge{
+  width: 19%;
+  padding-left: 1.5%;
+  padding-top: 0.8%;
+  margin-left: 5.5%;
+  margin-top: 1%
+  /* border: 1px solid grey */
+}
 .Dashboard-elem{
   display: flex;
   background-color: rgba(255, 255, 255, 0.644);

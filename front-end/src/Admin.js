@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import './App.css';
+import Paper from '@material-ui/core/Paper';
 import { Button } from 'react-bootstrap';
+import Switch from '@material-ui/core/Switch';
 import { Container } from 'react-bootstrap';
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -30,9 +32,8 @@ export default class Admin extends Component{
             dbProblemName : null,
             dbInputFile: null,
             dbOutputFile: null,
-            autojudge : false
-
-        }
+            autojudge : false,
+        }   
         this.componentWillMount = this.componentWillMount.bind(this)
         this.componentDidMount = this.componentDidMount.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -40,6 +41,7 @@ export default class Admin extends Component{
         this.removeTeam = this.removeTeam.bind(this)
         this.removeJudge = this.removeJudge.bind(this)
         this.removeProblem = this.removeProblem.bind(this)
+        this.handleToggle = this.handleToggle.bind(this)
         this.DownloadPasswords = this.DownloadPasswords.bind(this)
 
     }
@@ -68,7 +70,6 @@ export default class Admin extends Component{
           .then((d)=>{
               if(d.data !== '404'){
                   this.setState(d.data)
-                //   this.setState({Problems:[{Name:"Problem 1"} ,{Name:"Problem 1"} ,{Name:"Problem 1"} , {Name :"Problem 2"}]})
               }
           })
           .catch(err=>{
@@ -129,6 +130,14 @@ export default class Admin extends Component{
         })
         
         // console.log(event.target.id)
+    }
+    handleToggle(e){
+        // console.log(e.target.checked)
+        axios.post( LINK + 'ToggleAutoJudge' , {
+            Competition : this.state.CompName,
+            Value : !this.state.autojudge
+        })
+        this.setState({autojudge:!this.state.autojudge})
     }
     handleSubmit(event){
         event.preventDefault()
@@ -284,6 +293,17 @@ export default class Admin extends Component{
                     <div>
                         <center> <div className = "CompDashboard"><h2> Welcome to {this.state.CompName} Dashboard</h2></div></center>
                         <div>
+                        <Paper className = "AutoJudge">
+                        <h3 >AutoJudge
+                            <Switch
+                                checked={this.state.autojudge}
+                                onChange={this.handleToggle}
+                                value="checkedB"
+                                color="primary"
+                            />
+                        </h3> 
+                        </Paper>
+
                             <br></br>
                             <Button onClick = {this.DownloadPasswords} className= "DownloadButton" variant="secondary" size="" href="#">
                             Download Passwords

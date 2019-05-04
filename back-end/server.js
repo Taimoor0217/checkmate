@@ -254,6 +254,7 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                                 Teams: d.Teams,
                                 Judges: d.Judges,
                                 Problems: d.Problems,
+                                autojudge : d.AutoJudge
                             }
                             res.send(state)
                             res.end()
@@ -441,7 +442,7 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
             data.Judges = JUDGES_DATA[0]
             res.send(data)
             res.end()
-
+            
         })
         app.post('/NewTeam' , (req , res)=>{
             data = req.body
@@ -456,13 +457,13 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                         console.log(`A new Team added to DB ${Competition}`)
                     }
                 })
-            res.end()
-        })
-        app.post('/NewJudge' , (req , res)=>{
-            data = req.body
-            Competition = data.Competition
-            delete data.Competition
-            COMPETITION.findOneAndUpdate(
+                res.end()
+            })
+            app.post('/NewJudge' , (req , res)=>{
+                data = req.body
+                Competition = data.Competition
+                delete data.Competition
+                COMPETITION.findOneAndUpdate(
                 {Name:Competition},
                 {$push :{Judges : data}} , (e , d)=>{
                     if(e){
@@ -495,14 +496,14 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                         console.log(`A new File added to DB ${req.body.Competition}`)
                     }
                 })
-            res.send(`File has been saved`);
-            res.end()
+                res.send(`File has been saved`);
+                res.end()
         });
         app.post('/ProbOutput', upload.single('OutputFile'), (req, res) => {
             COMPETITION.update(
                 {Name:req.body.Competition , "Problems.ProblemName" : req.body.ProblemName},
                 {$set : {"Problems.$.Output_Path": req.file.path}}
-            , (e , d)=>{
+                , (e , d)=>{
                 if(e){
                     console.log(e)
                 }else{
@@ -511,30 +512,46 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                 }
             })
         });
-        app.post('/ProbSolution', upload.single('SubmittedFile'), (req, res) => {
-            if(1){
-                const sub = {
-                    CompetitionName : req.body.Competition,
-                    file_path : req.file.path,
-                    ProblemName : req.body.Problem,
-                    TeamName : req.body.Team,
-                    TimeStamp : Date.now(),
-                    Status : "UnChecked",
-                    SubmissionID : uuidv4(),
-                    Correct : false
+        app.post('/ToggleAutoJudge' , (req , res)=>{
+            COMPETITION.updateOne(
+                {Name:req.body.Competition},
+                {$set : {"AutoJudge": req.body.Value}}
+                , (e , d)=>{
+                if(e){
+                    console.log(e)
+                }else{
+                    console.log(`${req.body.Competition}: auto judge turned ${req.body.Value}`);
+                    res.end()
                 }
-                COMPETITION.findOneAndUpdate({Name : req.body.Competition},
-                {$push :{Submissions : sub}} , (e , d)=>{
-                        if(e){
-                            console.log(e)
-                        }else{
-                            console.log(`A Submission to ${req.body.Competition}`)
-                            io.sockets.emit("NewSubmission" , sub)
-                        }
-                })
-            }else{
-                VerifySubmission_Automatically(req , res)
-            }
+            })
+                                                                                                                                                                                                                                                                            
+        })
+        app.post('/ProbSolution', upload.single('SubmittedFile'), (req, res) => {
+            COMPETITION.findOne({Name : req.body.Competition} , (err , data)=>{
+                if(!data.AutoJudge){
+                    const sub = {
+                        CompetitionName : req.body.Competition,
+                        file_path : req.file.path,
+                        ProblemName : req.body.Problem,
+                        TeamName : req.body.Team,
+                        TimeStamp : Date.now(),
+                        Status : "UnChecked",
+                        SubmissionID : uuidv4(),
+                        Correct : false
+                    }
+                    COMPETITION.findOneAndUpdate({Name : req.body.Competition},
+                        {$push :{Submissions : sub}} , (e , d)=>{
+                            if(e){
+                                console.log(e)                                                                                                                                                                                                                                          
+                            }else{
+                                console.log(`A Submission to ${req.body.Competition}`)
+                                io.sockets.emit("NewSubmission" , sub)
+                            }
+                    })
+                }else{
+                    VerifySubmission_Automatically(req , res)
+                }
+            })
         })
         app.post('/AcceptSubmission' , function(req , res){
             target = ''    
