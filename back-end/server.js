@@ -432,6 +432,7 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                 Judges: JUDGES_DATA[0],
                 Teams: TEAMS_DATA[0],
                 Problems: [],
+                AutoJudge : data.autojudge,
                 Submissions: [],
                 Scoreboard: null
             })
@@ -701,6 +702,6 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                     }
                 })
         })
-        server.listen(8500, '0.0.0.0', () => console.log('SERVER Listning On THE PORT'))
+        server.listen(8400, '0.0.0.0', () => console.log('SERVER Listning On THE PORT'))
     })
     .catch((err) => console.log(err))

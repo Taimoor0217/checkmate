@@ -9,8 +9,6 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import LINK from './link'
 const FileDownload = require('js-file-download')
-// import {fileDownload} from 'js-file-download'
-// const LINK = 'http://10.130.60.5:8300/'
 export default class Admin extends Component{
     constructor(){
         super()
@@ -31,7 +29,8 @@ export default class Admin extends Component{
             dbJudgePassword: null,
             dbProblemName : null,
             dbInputFile: null,
-            dbOutputFile: null
+            dbOutputFile: null,
+            autojudge : false
 
         }
         this.componentWillMount = this.componentWillMount.bind(this)
@@ -257,6 +256,9 @@ export default class Admin extends Component{
             case 'dbOutputFile':
                 this.setState({dbOutputFile: e.target.files[0]})
                 break;
+            case 'autojudge':
+                this.setState({autojudge: !this.state.autojudge})
+                break;
             default:
                 break;
         }
@@ -272,7 +274,7 @@ export default class Admin extends Component{
                                     <input className ="initialForm" Name = "NAME" placeholder ="Competition Name" type = 'text' onChange={this.handleChange} required= "true"></input>
                                     <input className ="initialForm" Name = "noTeams" placeholder ="Number of Teams" type = 'text' onChange={this.handleChange} required= "true" ></input>
                                     <input className ="initialForm" Name = "noJudges" placeholder ="Number of Judges" type = 'text' onChange={this.handleChange} required= "true"></input>
-                                    <input type="checkbox" name="vehicle1" value="Bike"></input> Auto Judge In the Start?<br></br>
+                                    <input type="checkbox" name="autojudge" onChange={this.handleChange}></input> Auto Judge In the Start?<br></br>
                                     <input className ="initialForm" Name = "Duration" placeholder ="Duration" type = 'text' onChange={this.handleChange} required= "true"></input>
                                     <input className ="initialFormSubmit" type = 'Submit' value = "Save Competition"></input>
                                 </form>

@@ -148,7 +148,7 @@ export default class ParticipantLogin extends Component{
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                         <form Name ="LogInJudge" id ="LogInJudge" onSubmit = {this.handleSubmit}>
-                            <input className ="initialForm" Name = "LogInJudgeName" placeholder ="Team Name" type = 'text' onChange={this.handleChange} required= "true"></input>
+                            <input className ="initialForm" Name = "LogInJudgeName" placeholder ="Judge Name" type = 'text' onChange={this.handleChange} required= "true"></input>
                             <input className ="initialForm" Name = "LogInJudgePassword" placeholder ="Password" type = 'password' onChange={this.handleChange} required= "true" ></input>
                             <input className ="initialForm" Name = "LogInCompetitionName" placeholder ="Competition Name" type = 'text' onChange={this.handleChange} required= "true"></input>
                             <input className ="initialFormSubmit" type = 'Submit' value = "LogIn"></input>
