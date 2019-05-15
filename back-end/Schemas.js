@@ -47,7 +47,8 @@ const COMPETITION_SCHEMA = new mongoose.Schema({
     Problems: [PROBLEM_SCHEMA],
     Submissions: [SUBMISSION_SCHEMA],
     Scoreboard: SCOREBOARD_SCHEMA,
-    AutoJudge : Boolean
+    AutoJudge : Boolean,
+    Started : Boolean
 })
 module.exports = {
     User: USER_SCHEMA,

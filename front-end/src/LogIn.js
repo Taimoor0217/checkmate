@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import auth from "./Auth";
-import {Fade } from 'reactstrap';
+import {Fade, Spinner } from 'reactstrap';
 import { Container } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -29,7 +29,7 @@ export default class LogIn extends Component{
     showerr(e){
         toast('Invalid Credentials', {
             className: css({
-                "margin-top":"16%",
+                "margin-top":"8%",
                 "color" : "red",
                 // background: 'rgba(255, 12, 3, 0.94);',
                 fontSize: '210%',
@@ -46,6 +46,10 @@ export default class LogIn extends Component{
             pauseOnHover: true,
             draggable: true
         })
+        this.setState({ 
+            fade : true,
+            fadeload : false
+        })
     }
     handleSubmit(e){
         e.preventDefault()
@@ -56,7 +60,7 @@ export default class LogIn extends Component{
             auth.loginAdmin(this.state.UserName , this.state.Password , ()=>{
                 toast('LogIn Successful!', {
                     className: css({
-                        "margin-top":"16%",
+                        "margin-top":"8%",
                         "color" : "green",
                         fontSize: '210%',
                         fontFamily : 'Bree serif',
@@ -95,9 +99,14 @@ export default class LogIn extends Component{
                     draggable
                     pauseOnHover
                 />
-                <Fade in={this.state.fade } tag="h5" className="mt-3">
+               
                     <Container  className = "AdminForm">
-                        <center><h3>{this.state.error}</h3></center>
+                    <div className = "Loading">
+                        <Fade in = {this.state.fadeload}tag="h5" className="mt-3">
+                            <Spinner color = "dark" style={{ width: '5rem', height: '5rem' }} />{' '}
+                        </Fade>
+                    </div>
+                    <Fade in={this.state.fade } tag="h5" className="mt-3">
                         <center><h1>Please Login To Continue</h1></center>
                         <div className = "LogInPage">
                             <form Name ="LogIn" id ="LogIn" onSubmit = {this.handleSubmit}>
@@ -108,8 +117,8 @@ export default class LogIn extends Component{
                                 <h6>Do not have an Account? <a href="/SignUp">SignUp</a></h6>
                             </form>
                         </div>
+                    </Fade>
                     </Container>
-                </Fade>
                 </div>
           );
     }

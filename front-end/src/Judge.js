@@ -95,6 +95,10 @@ export default class Judge extends Component{
         this.setModal = this.setModal.bind(this)
         this.hidemodal = this.hidemodal.bind(this)
         this.pushOutput = this.pushOutput.bind(this)
+        this.openScoreBoard = this.openScoreBoard.bind(this)
+    }
+    openScoreBoard(){
+        window.open(`http://127.0.0.1:3000/Scoreboard/${this.props.CompName}`)
     }
     pushOutput(id , Output){
         var temp = this.state.Submissions
@@ -223,6 +227,10 @@ export default class Judge extends Component{
         .catch(e => console.log(e))
     }
     render(){
+        var indicator = true
+        if(this.state.Submissions.length < 1){
+            indicator = false
+        } 
         return( 
         <div>
             
@@ -231,7 +239,8 @@ export default class Judge extends Component{
                 <br></br>
             </center>
             <div>
-                {this.state.Submissions.map(s =>{
+                <Button className= "ScoreboardButton" variant="secondary" onClick = {this.openScoreBoard}> Scoreboard</Button>
+                {indicator? (this.state.Submissions.map(s =>{
                     return(
                         <div className = "JudgeProblem">
                             <ExpansionPanel>
@@ -260,7 +269,9 @@ export default class Judge extends Component{
                             </ExpansionPanel>
                         </div>
                     )
-                })}
+                })):(
+                    <h3 className = "Waiting" >No Pending Submissions...</h3>
+                )}
             </div>
         </div>
         )

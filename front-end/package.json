@@ -12,6 +12,7 @@
     "react-bootstrap": "^1.0.0-beta.8",
     "react-dom": "^16.8.6",
     "react-scripts": "2.1.8",
+    "react-stopwatch": "^2.0.3",
     "react-strap": "0.0.1",
     "react-toastify": "^5.1.0",
     "reactstrap": "^8.0.0"

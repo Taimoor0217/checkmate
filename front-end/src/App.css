@@ -11,7 +11,9 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
 .AutoJudge{
+  float: left;
   width: 19%;
   padding-left: 1.5%;
   padding-top: 0.8%;
@@ -283,13 +285,27 @@ input::placeholder {
   font-size: 130%;
   width: 20%;
   font-family: Bree serif;
-  background-color:rgb(2, 7, 36);
+  background-color:rgba(26, 51, 189, 0.829);
+}
+.ScoreboardButton1{
+  border:1px solid white;
+  padding:2%; 
+  /* margin-bottom: 3%;  */
+  margin-top:2%;
+  margin-left: 47.5%;
+  font-size: 130%;
+  width: 20%;
+  font-family: Bree serif;
+  background-color:rgba(26, 51, 189, 0.829);
 }
 .ScoreboardButton:hover {
   background-color:rgb(3, 14, 80);
 }
+.ScoreboardButton1:hover {
+  background-color:rgb(3, 14, 80);
+}
 .StartButton:hover {
-  background-color:rgb(2, 7, 36);
+  background-color:rgb(3, 14, 80);
 }
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
@@ -309,6 +325,13 @@ input::placeholder {
   margin-right: 3%;
   font-family: Bree serif;
   font-size: 1.7em
+}
+.Waiting{
+  color: rgb(196, 36, 36);
+  padding: 1%;
+  width: 40%;
+  text-align: center;
+  margin: auto;
 }
 h6{
   font-size : 15px;
@@ -331,8 +354,8 @@ body{
 }
 .CompDashboard{
   color: white;
-  width: 40%;
-  /* border-radius: 5px;  */
+  width: 50%;
+  border-radius: 5px; 
   padding: 2%;
   border: 1px solid rgba(221, 207, 207, 0.685); 
   background-color: rgba(4, 7, 27, 0.932)
@@ -347,6 +370,9 @@ body{
   border: 1px solid rgba(221, 207, 207, 0.685); 
   background-color: rgba(4, 7, 27, 0.932)
 }
+.Loading{
+  margin-left: 40% 
+}
 .CheckMateHead{
   color: white;
   font-weight: 650;
@@ -354,7 +380,7 @@ body{
 }
 .ProblemStatus{
   position: absolute;
-  padding: 1%;
+  /* padding: 1%; */
   padding-left: 80%; 
 }
 .UnSolved{

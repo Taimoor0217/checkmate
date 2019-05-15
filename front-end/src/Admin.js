@@ -33,6 +33,7 @@ export default class Admin extends Component{
             dbInputFile: null,
             dbOutputFile: null,
             autojudge : false,
+            Started : false
         }   
         this.componentWillMount = this.componentWillMount.bind(this)
         this.componentDidMount = this.componentDidMount.bind(this)
@@ -42,8 +43,19 @@ export default class Admin extends Component{
         this.removeJudge = this.removeJudge.bind(this)
         this.removeProblem = this.removeProblem.bind(this)
         this.handleToggle = this.handleToggle.bind(this)
+        this.handleStart = this.handleStart.bind(this)
         this.DownloadPasswords = this.DownloadPasswords.bind(this)
-
+        this.openScoreBoard = this.openScoreBoard.bind(this)
+    }
+    openScoreBoard(){
+        window.open(`http://127.0.0.1:3000/Scoreboard/${this.state.CompName}`)
+    }
+    handleStart(){
+        this.setState({Started:!this.state.Started})
+        axios.post(LINK + 'togglecompstatus' , {
+            Competition : this.state.CompName,
+            Value : !this.state.Started
+        })
     }
     DownloadPasswords(){
         axios.get(LINK + 'getPasswords' , {
@@ -273,6 +285,10 @@ export default class Admin extends Component{
         }
     }
     render(){
+        var message = "Stop"
+        if (this.state.Started === false){
+            message = "Start"
+        }
         return(
             <div>
                 { this.state.Initial ?(
@@ -293,23 +309,23 @@ export default class Admin extends Component{
                     <div>
                         <center> <div className = "CompDashboard"><h2> Welcome to {this.state.CompName} Dashboard</h2></div></center>
                         <div>
-                        <Paper className = "AutoJudge">
-                        <h3 >AutoJudge
-                            <Switch
-                                checked={this.state.autojudge}
-                                onChange={this.handleToggle}
-                                value="checkedB"
-                                color="primary"
-                            />
-                        </h3> 
-                        </Paper>
-
+                            <Button className= "ScoreboardButton1" variant="secondary" onClick = {this.openScoreBoard}> Scoreboard</Button>
+                            <div className = "AutoJudge">
+                            <h3 >AutoJudge
+                                <Switch
+                                    checked={this.state.autojudge}
+                                    onChange={this.handleToggle}
+                                    value="checkedB"
+                                    color="primary"
+                                />
+                            </h3> 
+                            </div>
                             <br></br>
                             <Button onClick = {this.DownloadPasswords} className= "DownloadButton" variant="secondary" size="" href="#">
                             Download Passwords
                             </Button>
-                            <Button className= "StartButton" variant="secondary" size="" href="#">
-                            Start Competition
+                            <Button className= "StartButton" variant="secondary" size="" onClick = {this.handleStart}>
+                            {message} Competition
                             </Button>
                         </div>
                         

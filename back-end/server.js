@@ -227,7 +227,10 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                             Status: v
                         })
                     }
-                    res.send(RESPONSE)
+                    res.send({
+                        Problems : RESPONSE,
+                        Started : d.Started
+                    })
                     res.end()
                 }
             })
@@ -254,7 +257,8 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                                 Teams: d.Teams,
                                 Judges: d.Judges,
                                 Problems: d.Problems,
-                                autojudge : d.AutoJudge
+                                autojudge : d.AutoJudge,
+                                Started : d.Started
                             }
                             res.send(state)
                             res.end()
@@ -417,6 +421,7 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                 }
             })
         })
+        
         app.post('/CompInitials', (req, res) => {
             // console.log('posted data')
             data = req.body
@@ -435,7 +440,8 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                 Problems: [],
                 AutoJudge : data.autojudge,
                 Submissions: [],
-                Scoreboard: null
+                Scoreboard: null,
+                Started : false
             })
             data.Initial = false
             data.Teams = TEAMS_DATA[0]
@@ -526,6 +532,23 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
             })
                                                                                                                                                                                                                                                                             
         })
+        app.post('/togglecompstatus' , (req , res)=>{
+            const comp = req.body.Competition 
+            COMPETITION.updateOne(
+                {Name:req.body.Competition},
+                {$set : {"Started": req.body.Value}}
+                , (e , d)=>{
+                if(e){
+                    console.log(e)
+                }else{
+                    console.log(`${req.body.Competition}: Started Status Turned  ${req.body.Value}`);
+                    io.sockets.emit('ToggleCompStatus',{
+                        Competiton : comp
+                    })
+                    res.end()
+                }
+            })
+        })
         app.post('/ProbSolution', upload.single('SubmittedFile'), (req, res) => {
             COMPETITION.findOne({Name : req.body.Competition} , (err , data)=>{
                 if(!data.AutoJudge){
@@ -576,7 +599,7 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                                     for (i = 0 ; i < data.Teams.length ; i++){
                                         if(data.Teams[i].UserName === target.TeamName){
                                             if(!data.Teams[i].Solved.includes(target.ProblemName)){
-                                                COMPETITION.update(
+                                                COMPETITION.updateOne(
                                                     {Name:req.body.Competition , "Teams.UserName" : target.TeamName},
                                                     {$push : {"Teams.$.Solved": target.ProblemName}}
                                                 , (ERR , d)=>{
@@ -586,7 +609,7 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                                                         console.log('Submission Logged')
                                                     }
                                                 })   
-                                                COMPETITION.update(
+                                                COMPETITION.updateOne(
                                                     {Name:req.body.Competition , "Teams.UserName" : target.TeamName},
                                                     {$inc : {"Teams.$.Score": +20}}
                                                 , (ERR , d)=>{
@@ -604,7 +627,7 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                                     }
                                 }
                             })
-                            COMPETITION.update(
+                            COMPETITION.updateOne(
                                 {Name:req.body.Competition , "Submissions.SubmissionID" : req.body.SubmissionID},
                                 {$set : {"Submissions.$.Status": "Checked"}}
                             , (e , d)=>{
@@ -645,7 +668,7 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                         res.end()
                         io.sockets.emit('RemoveSubmission' , req.body.SubmissionID)
                     }else{
-                        COMPETITION.update(
+                        COMPETITION.updateOne(
                             {Name:req.body.Competition , "Teams.UserName" : target.TeamName},
                             {$inc : {"Teams.$.Score": -1}}
                         , (ERR , d)=>{
@@ -656,7 +679,7 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                                 console.log('Score Updated')
                             }
                         }) 
-                        COMPETITION.update(
+                        COMPETITION.updateOne(
                             {Name:req.body.Competition , "Submissions.SubmissionID" : req.body.SubmissionID},
                             {$set : {"Submissions.$.Status": "Checked"}}
                         , (e , d)=>{

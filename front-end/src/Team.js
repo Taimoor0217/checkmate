@@ -12,7 +12,8 @@ export default class Team extends Component{
         super(props)
         this.state = {
             Problems : [],
-            SubmittedFile : ''
+            SubmittedFile : '',
+            Started : false
         }
         this.componentDidMount = this.componentDidMount.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,7 +33,10 @@ export default class Team extends Component{
         })
         .then(d=>{
             // console.log(d.data)
-            this.setState({Problems: d.data})
+            this.setState({
+                Problems: d.data.Problems,
+                Started : d.data.Started
+            })
         })
         .catch(e=>{
             console.log(e)
@@ -42,6 +46,9 @@ export default class Team extends Component{
             if(d.Team === this.props.Name && d.Competition === this.props.CompName){
                 this.SetStatus(d.Problem , d.status)
             }
+        })
+        socket.on('ToggleCompStatus' , d =>{
+            this.setState({Started : !this.state.Started})
         })
     }
     handleChange(e){
@@ -86,16 +93,17 @@ export default class Team extends Component{
         // setTimeout(()=>this.SetStatus(id , "Solved") , 4000)
     }
     render(){
+        const flag = this.state.Started
         return( 
         <div>
             <center>
                 <div className = "CompDashboard"><h2>Welcome to {this.props.CompName}</h2></div>
                 <br></br>
-                {/* <h1>You are {this.props.Name}</h1> */}
             </center>
             <Button className= "ScoreboardButton" variant="secondary" onClick = {this.openScoreBoard}> Scoreboard</Button>
             <div>
-                {this.state.Problems.map(p =>{
+                {flag ? (
+                    this.state.Problems.map(p =>{
                     return(
                         <div className = "TeamProblem">
                             <ExpansionPanel>
@@ -114,7 +122,12 @@ export default class Team extends Component{
                             </ExpansionPanel>
                         </div>
                     )
-                })}
+                }
+                )):(
+                    <div className = "Waiting">
+                        <h3>Waiting for Competition to Start...</h3>
+                    </div>
+                )}
             </div>
         </div>
         )
