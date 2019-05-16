@@ -1,9 +1,9 @@
 # CheckMate
 A fully automated code checking web application for programming competitions, built upon by the Idea of PC2, which is a desktop application.
-We have used MERN as a Development Stack.
-Link: check-mate.ml
-Version: 1.0
-Require: Internet Connection
+We have used MERN as a Development Stack.  
+Link: check-mate.ml  
+Version: 1.0  
+Require: Internet Connection  
 
 # Description
 CheckMate is a web application which can be employed to conduct coding-based competitions.
