@@ -235,7 +235,7 @@ export default class Judge extends Component{
         <div>
             
             <center>
-                <div className = "CompDashboard"><h2>Welcome to {this.props.CompName}</h2></div>
+                <div className = "CompDashboard"><h2>{this.props.Name}, Welcome to {this.props.CompName}</h2></div>
                 <br></br>
             </center>
             <div>

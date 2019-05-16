@@ -41,7 +41,7 @@ export default class LogIn extends Component{
 
             }),
             position: "top-center",
-            autoClose: 2000,
+            autoClose: 2000, 
             hideProgressBar: true,
             pauseOnHover: true,
             draggable: true
@@ -107,7 +107,7 @@ export default class LogIn extends Component{
                         </Fade>
                     </div>
                     <Fade in={this.state.fade } tag="h5" className="mt-3">
-                        <center><h1>Please Login To Continue</h1></center>
+                        <center><h3>Please Login To Continue</h3></center>
                         <div className = "LogInPage">
                             <form Name ="LogIn" id ="LogIn" onSubmit = {this.handleSubmit}>
                                 <input className ="initialForm"  Name = "UserName" placeholder ="UserName" type = 'text' onChange={this.handleChange} required= "true"></input>

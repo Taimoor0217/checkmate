@@ -248,7 +248,7 @@ input::placeholder {
   background-color:rgba(0, 0, 0, 0.877);
   border-radius: 0.4em;
 }
-.StartButton{
+.Start{
   border:1px solid white;
   padding:2%; 
   margin-top:2%;
@@ -256,8 +256,25 @@ input::placeholder {
   font-size: 130%;
   width: 20%;
   font-family: Bree serif;
-  background-color:rgba(4, 7, 27, 0.932)
+  background-color:rgba(5, 87, 3, 0.877);
   /* border-radius: 0.4em; */
+}
+.Stop{
+  border:1px solid white;
+  padding:2%; 
+  margin-top:2%;
+  margin-left:47%;
+  font-size: 130%;
+  width: 20%;
+  font-family: Bree serif;
+  background-color:rgba(206, 0, 0, 0.932)
+  /* border-radius: 0.4em; */
+}
+.Start:hover{
+  background-color: rgba(7, 104, 4, 0.877);
+}
+.Stop:hover{
+  background-color: rgba(199, 20, 20, 0.952);
 }
 .DownloadButton{
   border:1px solid white;
@@ -285,9 +302,10 @@ input::placeholder {
   font-size: 130%;
   width: 20%;
   font-family: Bree serif;
-  background-color:rgba(26, 51, 189, 0.829);
+  background-color: rgba(4, 7, 27, 0.932)
 }
 .ScoreboardButton1{
+  background-color: rgba(4, 7, 27, 0.932);
   border:1px solid white;
   padding:2%; 
   /* margin-bottom: 3%;  */
@@ -296,7 +314,7 @@ input::placeholder {
   font-size: 130%;
   width: 20%;
   font-family: Bree serif;
-  background-color:rgba(26, 51, 189, 0.829);
+  
 }
 .ScoreboardButton:hover {
   background-color:rgb(3, 14, 80);
@@ -446,7 +464,7 @@ h3{
   font-size: 1.6em
 }
 .LogInPage{
-  padding-top: 8%; 
+  padding-top: 1%; 
   width : 70%;
   margin-left: 13%
 }

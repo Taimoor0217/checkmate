@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import './App.css';
-import Paper from '@material-ui/core/Paper';
 import { Button } from 'react-bootstrap';
 import Switch from '@material-ui/core/Switch';
 import { Container } from 'react-bootstrap';
@@ -20,7 +19,6 @@ export default class Admin extends Component{
             CompName: '',
             No_Teams:'',
             No_Judges:'',
-            Duration: '',
             Teams: null,
             Judges: null,
             Problems:[],
@@ -299,8 +297,7 @@ export default class Admin extends Component{
                                     <input className ="initialForm" Name = "NAME" placeholder ="Competition Name" type = 'text' onChange={this.handleChange} required= "true"></input>
                                     <input className ="initialForm" Name = "noTeams" placeholder ="Number of Teams" type = 'text' onChange={this.handleChange} required= "true" ></input>
                                     <input className ="initialForm" Name = "noJudges" placeholder ="Number of Judges" type = 'text' onChange={this.handleChange} required= "true"></input>
-                                    <input type="checkbox" name="autojudge" onChange={this.handleChange}></input> Auto Judge In the Start?<br></br>
-                                    <input className ="initialForm" Name = "Duration" placeholder ="Duration" type = 'text' onChange={this.handleChange} required= "true"></input>
+                                    <input type="checkbox" name="autojudge" onChange={this.handleChange}></input> Auto Judge ?<br></br>
                                     <input className ="initialFormSubmit" type = 'Submit' value = "Save Competition"></input>
                                 </form>
                         </Container>
@@ -324,7 +321,7 @@ export default class Admin extends Component{
                             <Button onClick = {this.DownloadPasswords} className= "DownloadButton" variant="secondary" size="" href="#">
                             Download Passwords
                             </Button>
-                            <Button className= "StartButton" variant="secondary" size="" onClick = {this.handleStart}>
+                            <Button className= {message} variant="secondary" size="" onClick = {this.handleStart}>
                             {message} Competition
                             </Button>
                         </div>

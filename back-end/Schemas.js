@@ -40,7 +40,6 @@ const SUBMISSION_SCHEMA = new mongoose.Schema({
 const COMPETITION_SCHEMA = new mongoose.Schema({
     Name: String,
     DateCreated: String,
-    TimeLimit: Number,
     Admin: String,
     Judges: [JUDGE_SCHEMA],
     Teams :[TEAM_SCHEMA],

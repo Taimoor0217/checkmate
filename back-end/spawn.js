@@ -84,16 +84,19 @@ function evalPython(subObj){
           (u === o) ? compare.push ([u,o,1]) : compare.push ([u,o,0])
         }
 
+        f = 1
         //if output is not correct, points becomes zero
         compare.forEach(element => {
           if (element[2]===0){
             subObj.result = "Incorrect";
-            return
+            f = 0
           } else {
             subObj.result = "Correct"
           }
         });
+
         subObj.output = compare
+        subObj.result = (f===0) ? "Incorrect" : "Correct"
       }
       // console.log(subObj);
       res (subObj);

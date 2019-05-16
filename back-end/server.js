@@ -253,7 +253,6 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
                                 CompName: d.Name,
                                 No_Teams: d.Teams.length,
                                 No_Judges: d.Judges.length,
-                                Duration: d.TimeLimit,
                                 Teams: d.Teams,
                                 Judges: d.Judges,
                                 Problems: d.Problems,
@@ -433,7 +432,6 @@ mongoose.connect('mongodb+srv://Cmate-G8:Cmate123@cluster0-t7urq.mongodb.net/tes
             COMPETITION.create({
                 Name: data.CompName,
                 DateCreated: String(Date.now()),
-                TimeLimit: data.Duration,
                 Admin: data.UserName,
                 Judges: JUDGES_DATA[0],
                 Teams: TEAMS_DATA[0],

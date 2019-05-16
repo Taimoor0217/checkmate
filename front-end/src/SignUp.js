@@ -82,7 +82,7 @@ export default class SignUp extends Component{
             <Container  className = "AdminForm">
                     <form Name = "INITIALINFO" onSubmit = {this.handleSubmit}>
                         <input className ="initialForm" Name = "UserName" placeholder ="User Name" type = 'text' onChange={this.handleChange} required= "true"></input>
-                        <input className ="initialForm" Name = "Password" placeholder ="Password" type = 'text' onChange={this.handleChange} required= "true"></input>
+                        <input className ="initialForm" Name = "Password" placeholder ="Password" type = 'password' onChange={this.handleChange} required= "true"></input>
                         <input className ="initialForm" Name = "Email" placeholder ="Email Address" type = 'email' onChange={this.handleChange} required= "true"></input>
                         <input className ="initialFormSubmit" type = 'Submit' value = "Sign Up"></input>
                         <h6>Already have an account ? <a href="/LogIn">LogIn</a></h6>
