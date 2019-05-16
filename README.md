@@ -1,7 +1,7 @@
 # CheckMate
 A fully automated code checking web application for programming competitions, built upon by the Idea of PC2, which is a desktop application.
 We have used MERN as a Development Stack.  
-Link: check-mate.ml  
+Link: http://check-mate.ml  
 Version: 1.0  
 Require: Internet Connection  
 
