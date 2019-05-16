@@ -22,7 +22,7 @@ export default class Team extends Component{
         this.openScoreBoard = this.openScoreBoard.bind(this)
     }
     openScoreBoard(){
-        window.open(`http://127.0.0.1:3000/Scoreboard/${this.props.CompName}`)
+        window.open(`http://check-mate.ml/Scoreboard/${this.props.CompName}`)
     }
     componentDidMount(){
         axios.get(LINK+ 'TeamProblems', {

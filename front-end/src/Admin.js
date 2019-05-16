@@ -46,7 +46,7 @@ export default class Admin extends Component{
         this.openScoreBoard = this.openScoreBoard.bind(this)
     }
     openScoreBoard(){
-        window.open(`http://127.0.0.1:3000/Scoreboard/${this.state.CompName}`)
+        window.open(`http://check-mate.ml/Scoreboard/${this.state.CompName}`)
     }
     handleStart(){
         this.setState({Started:!this.state.Started})

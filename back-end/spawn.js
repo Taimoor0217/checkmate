@@ -94,9 +94,9 @@ function evalPython(subObj){
             subObj.result = "Correct"
           }
         });
-
-        subObj.output = compare
         subObj.result = (f===0) ? "Incorrect" : "Correct"
+        subObj.output = compare
+        
       }
       // console.log(subObj);
       res (subObj);
