@@ -1,14 +1,11 @@
 # CheckMate
 A fully automated code checking web application for programming competitions, built upon by the Idea of PC2, which is a desktop application.
 We have used MERN as a Development Stack.
-
-=====CheckMate=====
-
 Link: check-mate.ml
 Version: 1.0
 Require: Internet Connection
 
-=====Description====
+# Description
 CheckMate is a web application which can be employed to conduct coding-based competitions.
 CheckMate enable the users to check the code automatically and manually given the required (correct) answers.
 This website provides an interface where anyone should be able to sign-up to conduct a competition
@@ -16,8 +13,7 @@ within his/her sphere or to participate in general. It can be used in educationa
 corporate sector for professional and worldwide coding competitions.
 
 
-
-=====How to Setup a Competetion====
+# How to Setup a Competetion
 
 1. Click on Create Competetion Button.
 2. Sign Up if you are a first time user.
@@ -30,7 +26,7 @@ corporate sector for professional and worldwide coding competitions.
 8. To start a competetion, click on start competetion button.
 
 
-=====How to Judge in a Competetion====
+# How to Judge in a Competetion
 
 1. Click on Join Existing Competetion
 2. Login first to your Judge's portal with username and passowrd provided by competetion creator.
@@ -39,12 +35,12 @@ corporate sector for professional and worldwide coding competitions.
 5. Select relevent option to proceed to accept or reject a solution.
 
 
-=====How to Particpate in a Competetion====
+# How to Particpate in a Competetion
 
 1. Click on Join Existing Competetion
 2. Login first to your Team's portal with username and passowrd provided by competetion creator.
 3. To submit a solution, select the prbleme given list of problems. Click on any problem, the bar will expand.
 4. Upload file from your local directory and click submit.
 
-=====How to View Scorboard====
+# How to View Scorboard
 1. Click on view scorboard to see scores of all teams.
